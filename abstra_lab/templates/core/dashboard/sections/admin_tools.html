@@ -1,0 +1,38 @@
+<div class="dashboard-panel">
+  <div class="dashboard-panel__header">
+    <div>
+      <p class="section-eyebrow">Tools</p>
+      <h2>Admin quick links</h2>
+      <p class="sx-page-hero__lede" style="margin-top:12px">Jump to external consoles and public pages from one place.</p>
+    </div>
+  </div>
+
+  <div class="table-wrap dashboard-table-wrap">
+    <table class="site-table dashboard-table">
+      <thead>
+        <tr>
+          <th>Tool</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for tool in admin_tools %}
+        <tr>
+          <td><strong>{{ tool.name }}</strong></td>
+          <td>{{ tool.description }}</td>
+          <td>
+            <div class="dashboard-table__actions">
+              {% if tool.url_name %}
+              <a class="dashboard-table__btn" href="{% url tool.url_name %}">Open</a>
+              {% else %}
+              <a class="dashboard-table__btn" href="{{ tool.url }}">Open</a>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Sponsor Us - Astra Labs{% endblock %}
+
+{% block content %}
+<section class="sx-page-hero" style="background-image: url('{% static 'images/field/aerial-oct2025.jpg' %}')">
+  <div class="wrap sx-page-hero__content range-ticks range-ticks--section">
+    <p class="section-eyebrow">Sponsorship</p>
+    <h1>Help Seneca students fly real hardware.</h1>
+    <p class="sx-page-hero__lede">Astra Labs is Team 06 at Seneca Polytechnic. Partners fund fabrication, student workshops, and competition readiness — with progress reported through build logs and photos.</p>
+    <div class="sx-page-hero__meta">
+      <span>Team 06</span>
+      <span>Seneca Polytechnic</span>
+      <span>Launch Canada 2026</span>
+    </div>
+    <div class="sx-package-actions" style="margin-top:28px">
+      <a class="sx-btn sx-btn--fill" href="{% static package.filename %}" download>Sponsorship package (PDF)</a>
+      <a class="sx-btn" href="#sponsor-package">View package</a>
+      <a class="sx-btn" href="mailto:{{ email }}">Contact us</a>
+    </div>
+  </div>
+</section>
+
+<section class="sx-page-body sx-page-body--tight sponsor-example-lab" aria-labelledby="sponsor-example-title">
+  <div class="wrap">
+    <div class="sx-page-intro range-ticks range-ticks--section">
+      <p class="section-eyebrow">Sponsor examples</p>
+      <h2 id="sponsor-example-title">Example sponsor surfaces we can build around.</h2>
+      <p class="sx-page-hero__lede" style="margin-top:12px">Fin graphics and electronics artwork can carry partner marks, acknowledgments, or campaign visuals.</p>
+    </div>
+    <div class="sponsor-example-grid">
+      <figure class="sponsor-example-card">
+        <img src="/media/images/image.png" alt="Rocket fin profile drawing with measurement coordinates">
+        <figcaption>
+          <span>Fin profile</span>
+          <small>Color, vinyl, or engraved sponsor treatment on the stabilizing fins.</small>
+        </figcaption>
+      </figure>
+      <figure class="sponsor-example-card sponsor-example-card--dark">
+        <img src="/media/images/image1.png" alt="Astra Labs circular PCB artwork with sponsor marks">
+        <figcaption>
+          <span>Payload PCB artwork</span>
+          <small>Partner logos and acknowledgments placed directly into board artwork.</small>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="sx-page-body" id="sponsor-package">
+  <div class="wrap">
+    <div class="sx-package-head">
+      <div class="sx-page-intro range-ticks range-ticks--section">
+        <p class="section-eyebrow">{{ package.title }}</p>
+        <h2>Complete sponsorship package — goals, vehicle, tiers, and next steps.</h2>
+        <p class="sx-page-hero__lede" style="margin-top:12px">{{ package.summary }}</p>
+      </div>
+      <div class="sx-package-actions sx-package-actions--side">
+        <a class="sx-btn sx-btn--fill" href="{% static package.filename %}" download>Download PDF</a>
+        <a class="sx-btn" href="{% static package.filename %}" target="_blank" rel="noopener noreferrer">Open in new tab</a>
+      </div>
+    </div>
+    <div class="sx-rows" aria-label="Sponsorship package contents">
+      {% for item in package.contents %}
+      <article>
+        <span>{{ forloop.counter|stringformat:"02d" }}</span>
+        <div><p style="margin:0">{{ item }}</p></div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="sx-page-body sx-page-body--tight">
+  <div class="wrap">
+    <div class="sx-page-intro range-ticks range-ticks--section">
+      <p class="section-eyebrow">Goals</p>
+      <h2>What sponsorship helps us deliver.</h2>
+    </div>
+    <div class="sx-rows">
+      {% for title, text in goals %}
+      <article>
+        <span>→</span>
+        <div>
+          <h3>{{ title }}</h3>
+          <p>{{ text }}</p>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="sx-page-body sx-page-body--tight">
+  <div class="wrap">
+    <div class="sx-page-intro">
+      <p class="section-eyebrow">Sponsorship tiers</p>
+      <h2>Flexible levels for your organization.</h2>
+      <p class="sx-page-hero__lede" style="margin-top:12px">All tiers include regular project updates and a personalized certificate of appreciation. Contributions can be monetary, in-kind, or services.</p>
+    </div>
+    <div class="table-wrap" style="margin-top:24px">
+      <table class="site-table">
+        <thead>
+          <tr><th>Tier</th><th>Investment (CAD)</th><th>Benefits</th></tr>
+        </thead>
+        <tbody>
+          {% for name, amount, benefits in tiers %}
+          <tr>
+            <td>{{ name }}</td>
+            <td>{{ amount }}</td>
+            <td>
+              <ul class="sx-tier-list">
+                {% for benefit in benefits %}
+                <li>{{ benefit }}</li>
+                {% endfor %}
+              </ul>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="sx-split">
+  <div class="sx-split__copy range-ticks range-ticks--section">
+    <p class="section-eyebrow">Why partner</p>
+    <h2>Your support moves hardware, not just marketing.</h2>
+    <p>Sponsorship buys flight materials, shop tooling, workshop kits, and the trip that proves the vehicle on the range.</p>
+    <p class="sx-page-hero__lede" style="margin-top:16px"><a href="{% url 'core:about' %}">About the club</a> covers mission, leadership, and faculty advisors. The PDF above has Pioneer specs and competition details.</p>
+  </div>
+  <div class="sx-split__media" style="background-image: url('{% static 'images/field/team-group-01.jpg' %}')" role="img" aria-label="Astra Labs crew at the launch area"></div>
+</section>
+
+<section class="sx-page-body">
+  <div class="wrap">
+    <div class="sx-page-intro range-ticks range-ticks--section">
+      <p class="section-eyebrow">Where support goes</p>
+      <h2>Four areas that move Pioneer from bench to range.</h2>
+    </div>
+    <div class="sx-rows">
+      {% for title, text in funding %}
+      <article>
+        <span>{{ forloop.counter|stringformat:"02d" }}</span>
+        <div>
+          <h3>{{ title }}</h3>
+          <p>{{ text }}</p>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="sx-page-body sx-page-body--tight">
+  <div class="wrap">
+    <div class="sx-page-intro">
+      <p class="section-eyebrow">Partner value</p>
+      <h2>What sponsors get back.</h2>
+    </div>
+    <div class="sx-rows">
+      {% for title, text in partner_value %}
+      <article>
+        <span>→</span>
+        <div>
+          <h3>{{ title }}</h3>
+          <p>{{ text }}</p>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="sx-gallery-band">
+  <div class="wrap">
+    <div class="sx-page-intro range-ticks range-ticks--section">
+      <p class="section-eyebrow">Program gallery</p>
+      <h2>The crew, the workshops, and the vehicle in the field.</h2>
+      <p class="sx-page-hero__lede" style="margin-top:12px">Recent photos from outreach events, payload workshops, and integration work behind Pioneer.</p>
+    </div>
+  </div>
+  <div class="work-gallery__grid work-gallery__grid--bleed">
+    {% for image, title, caption, modifier in sponsor_gallery %}
+    <figure class="work-gallery__item{% if modifier %} work-gallery__item--{{ modifier }}{% endif %}">
+      <img src="{% static 'images/'|add:image %}" alt="{{ title }}" loading="lazy">
+      <figcaption>
+        <span>{{ title }}</span>
+        <small>{{ caption }}</small>
+      </figcaption>
+    </figure>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="sx-cta-band">
+  <div class="wrap">
+    <p class="section-eyebrow">Next step</p>
+    <h2 style="margin:12px 0 0;font-size:clamp(28px,4vw,40px);font-weight:600">Let's talk about a partnership.</h2>
+    <p class="sx-page-hero__lede" style="margin:16px auto 0;max-width:48ch">Questions, custom proposals, or pledges — reach out to the team leads listed in the sponsorship package.</p>
+    <div class="sx-package-actions sx-package-actions--center" style="margin-top:28px">
+      <a class="sx-btn sx-btn--fill" href="mailto:{{ email }}">Email Astra Labs</a>
+      <a class="sx-btn" href="{{ package.linkedin_url }}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a class="sx-btn" href="{% static package.filename %}" download>Download package</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

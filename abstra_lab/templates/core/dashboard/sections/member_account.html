@@ -1,0 +1,22 @@
+<div class="dashboard-panel">
+  <p class="section-eyebrow">Your account</p>
+  <h2>Membership status</h2>
+  <div class="sx-rows" style="margin-top:20px;border-top:none">
+    <article style="padding:12px 0">
+      <span>Username</span>
+      <div><p style="margin:0">@{{ request.user.username }}</p></div>
+    </article>
+    <article style="padding:12px 0">
+      <span>Status</span>
+      <div><p style="margin:0">Active — approved for member tools</p></div>
+    </article>
+    <article style="padding:12px 0">
+      <span>Email</span>
+      <div><p style="margin:0">{{ request.user.email|default:"Not set" }}</p></div>
+    </article>
+    <article style="padding:12px 0">
+      <span>Joined</span>
+      <div><p style="margin:0">{{ request.user.date_joined|date:"M j, Y" }}</p></div>
+    </article>
+  </div>
+</div>

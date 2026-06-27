@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Telemetry - Astra Labs{% endblock %}
+{% block body_class %}ops-page{% endblock %}
+
+{% block content %}
+<section class="sx-tool sx-tool--ops">
+  <div class="sx-tool__intro range-ticks range-ticks--section">
+    <p class="section-eyebrow">Telemetry</p>
+    <h1>Ground-station intake for Pioneer.</h1>
+    <p class="sx-page-hero__lede">Receive-only packet history from the Django ground station. KPIs refresh every 5 seconds while this page is open.</p>
+  </div>
+
+  <div class="sx-tool__panel" data-telemetry-dashboard>
+    <p class="section-eyebrow">Latest frame</p>
+    <div class="telemetry-kpis" data-telemetry-kpis>
+      <div><span>Altitude</span><strong data-field="altitude_m">--</strong><small>m</small></div>
+      <div><span>Velocity</span><strong data-field="velocity_mps">--</strong><small>m/s</small></div>
+      <div><span>Battery</span><strong data-field="battery_v">--</strong><small>V</small></div>
+      <div><span>RSSI</span><strong data-field="rssi_dbm">--</strong><small>dBm</small></div>
+    </div>
+  </div>
+</section>
+
+<section class="sx-page-body sx-page-body--tight">
+  <div class="wrap">
+    <div class="sx-page-intro">
+      <p class="section-eyebrow">Ingest endpoint</p>
+      <h2>Token-protected POST</h2>
+      <p class="sx-page-hero__lede" style="margin-top:12px">Ground-station software sends JSON frames to <code>/api/telemetry/frames/</code> with a bearer token or <code>X-Telemetry-Token</code> header.</p>
+    </div>
+
+    <div class="table-wrap" style="margin-top:32px;border-top:1px solid var(--rim)">
+      <table class="site-table telemetry-table">
+        <thead>
+          <tr>
+            <th>Received</th>
+            <th>Station</th>
+            <th>Seq</th>
+            <th>Altitude</th>
+            <th>Battery</th>
+            <th>RSSI</th>
+          </tr>
+        </thead>
+        <tbody data-telemetry-rows>
+          {% for frame in frames %}
+          <tr>
+            <td>{{ frame.received_at|date:"H:i:s" }}</td>
+            <td>{{ frame.ground_station|default:"-" }}</td>
+            <td>{{ frame.sequence_number|default:"-" }}</td>
+            <td>{{ frame.altitude_m|default:"-" }}</td>
+            <td>{{ frame.battery_v|default:"-" }}</td>
+            <td>{{ frame.rssi_dbm|default:"-" }}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="6">No telemetry frames received yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,5 @@
+<div class="file-upload" data-file-upload>
+  {{ field }}
+  <label class="file-upload__trigger" for="{{ field.id_for_label }}">{{ button_label|default:"Choose file" }}</label>
+  <span class="file-upload__name" data-file-name>{{ filename|default:"No file chosen" }}</span>
+</div>

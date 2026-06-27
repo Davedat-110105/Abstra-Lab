@@ -1,0 +1,61 @@
+<div class="dashboard-panel">
+  <div class="dashboard-panel__header">
+    <div>
+      <p class="section-eyebrow">Asset library</p>
+      <h2>References &amp; images</h2>
+      <p class="sx-page-hero__lede" style="margin-top:12px">Club files from the crew — datasheets, competition docs, CAD exports, and field photos.</p>
+    </div>
+    <a class="sx-btn sx-btn--compact" href="{% url 'core:dashboard' %}?section=overview">Back to overview</a>
+  </div>
+
+  {% if library_folder_list %}
+  <div class="dashboard-library-folders">
+    <a class="dashboard-library-folders__link{% if not library_folder_filter %} is-active{% endif %}" href="{% url 'core:dashboard' %}?section=library">All</a>
+    {% for folder in library_folder_list %}
+    <a class="dashboard-library-folders__link{% if library_folder_filter == folder.id %} is-active{% endif %}" href="{% url 'core:dashboard' %}?section=library&amp;folder={{ folder.id }}">{{ folder.name }}</a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="table-wrap dashboard-table-wrap">
+    <table class="site-table dashboard-table">
+      <thead>
+        <tr>
+          <th>Preview</th>
+          <th>File</th>
+          <th>Folder</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for asset in library_assets %}
+        <tr>
+          <td>
+            {% if asset.is_image and asset.preview_url %}
+            <img class="dashboard-table__thumb" src="{{ asset.preview_url }}" alt="">
+            {% else %}
+            <span class="dashboard-library-file-icon">{{ asset.get_kind_display|slice:":1" }}</span>
+            {% endif %}
+          </td>
+          <td>
+            <strong>{{ asset.title }}</strong>
+            <p class="dashboard-table__sub">{{ asset.filename }}{% if asset.description %} · {{ asset.description|truncatewords:12 }}{% endif %}</p>
+          </td>
+          <td>{{ asset.folder.name|default:"—" }}</td>
+          <td>
+            {% if asset.is_image and asset.preview_url %}
+            <a class="dashboard-table__btn" href="{{ asset.preview_url }}" target="_blank" rel="noopener">View</a>
+            {% elif asset.has_file %}
+            <a class="dashboard-table__btn" href="{% url 'core:library_download' asset.id %}">Download</a>
+            {% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4">No published files in this folder yet.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>

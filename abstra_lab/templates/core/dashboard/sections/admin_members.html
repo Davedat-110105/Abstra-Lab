@@ -1,0 +1,109 @@
+<div class="dashboard-panel">
+  <div class="dashboard-panel__header">
+    <div>
+      <p class="section-eyebrow">Members</p>
+      <h2>Account roster</h2>
+      <p class="sx-page-hero__lede" style="margin-top:12px">Search and filter accounts. Pending signups, active members, and banned users are tracked separately.</p>
+    </div>
+    <p class="dashboard-panel__meta">{{ pending_count }} pending · {{ banned_count }} banned · {{ member_count }} active</p>
+  </div>
+
+  <form class="dashboard-filters" method="get" action="{% url 'core:dashboard' %}">
+    <input type="hidden" name="section" value="members">
+    <label class="dashboard-filters__field">
+      <span>Search</span>
+      <input
+        type="search"
+        name="q"
+        value="{{ member_search_q }}"
+        placeholder="Username, email, or name"
+        autocomplete="off"
+      >
+    </label>
+    <label class="dashboard-filters__field">
+      <span>Status</span>
+      <select name="status">
+        <option value="" {% if not member_status_filter %}selected{% endif %}>All statuses</option>
+        <option value="active" {% if member_status_filter == 'active' %}selected{% endif %}>Active</option>
+        <option value="pending" {% if member_status_filter == 'pending' %}selected{% endif %}>Pending</option>
+        <option value="banned" {% if member_status_filter == 'banned' %}selected{% endif %}>Banned</option>
+      </select>
+    </label>
+    <div class="dashboard-filters__actions">
+      <button class="sx-btn sx-btn--fill sx-btn--compact" type="submit">Apply</button>
+      {% if member_search_q or member_status_filter %}
+      <a class="sx-btn sx-btn--compact" href="{% url 'core:dashboard' %}?section=members">Clear</a>
+      {% endif %}
+    </div>
+  </form>
+
+  <div class="table-wrap dashboard-table-wrap">
+    <table class="site-table dashboard-table">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Joined</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for member in all_members %}
+        <tr>
+          <td><strong>{{ member.username }}</strong></td>
+          <td>{{ member.get_full_name|default:"—" }}</td>
+          <td>{{ member.email|default:"—" }}</td>
+          <td>{{ member.date_joined|date:"M j, Y" }}</td>
+          <td>
+            {% if member.is_active %}
+            <span class="dashboard-badge dashboard-badge--active">Active</span>
+            {% elif member.member_profile.is_banned %}
+            <span class="dashboard-badge dashboard-badge--banned">Banned</span>
+            {% else %}
+            <span class="dashboard-badge dashboard-badge--pending">Pending</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="dashboard-table__actions">
+              <a class="dashboard-table__btn" href="{% url 'core:member_edit' member.id %}">Edit</a>
+              {% if member.is_active %}
+              {% if member.id != request.user.id %}
+              <form method="post" action="{% url 'core:ban_member' member.id %}">
+                {% csrf_token %}
+                {% include "core/includes/member_filter_fields.html" %}
+                <button class="dashboard-table__btn dashboard-table__btn--danger" type="submit">Ban</button>
+              </form>
+              {% endif %}
+              {% elif member.member_profile.is_banned %}
+              <form method="post" action="{% url 'core:unban_member' member.id %}">
+                {% csrf_token %}
+                {% include "core/includes/member_filter_fields.html" %}
+                <button class="dashboard-table__btn dashboard-table__btn--approve" type="submit">Unban</button>
+              </form>
+              {% else %}
+              <form method="post" action="{% url 'core:approve_member' member.id %}">
+                {% csrf_token %}
+                {% include "core/includes/member_filter_fields.html" %}
+                <button class="dashboard-table__btn dashboard-table__btn--approve" type="submit">Approve</button>
+              </form>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6">
+            {% if member_search_q or member_status_filter %}
+            No members match this search or filter.
+            {% else %}
+            No member accounts yet.
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>

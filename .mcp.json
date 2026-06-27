@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "mcp-gateway": {
+      "type": "http",
+      "url": "https://mcp-gateway.homeserverlocal.com/mcp",
+      "headers": {
+        "Authorization": "Bearer 414b9a1a10537a0e45e042f35347e6d85a544fecabd18db26cc1b3e913551488"
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+<aside class="dashboard-layout__sidebar" aria-label="Dashboard navigation">
+  <p class="dashboard-layout__sidebar-label">{{ sidebar_title }}</p>
+  <nav class="dashboard-nav">
+    <ul class="dashboard-nav__list">
+      {% for item in sidebar_items %}
+      <li>
+        <a
+          class="dashboard-nav__link{% if active_section == item.id %} is-active{% endif %}"
+          href="{% if item.url_name %}{% url item.url_name %}{% else %}{% url 'core:dashboard' %}?section={{ item.id }}{% endif %}"
+          {% if active_section == item.id %}aria-current="page"{% endif %}
+        >{{ item.label }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </nav>
+  <form class="dashboard-sidebar__logout" method="post" action="{% url 'account_logout' %}">
+    {% csrf_token %}
+    <button class="dashboard-sidebar__logout-btn" type="submit">Log out</button>
+  </form>
+  {% if sidebar_footer %}
+  <p class="dashboard-layout__sidebar-meta">{{ sidebar_footer }}</p>
+  {% endif %}
+</aside>

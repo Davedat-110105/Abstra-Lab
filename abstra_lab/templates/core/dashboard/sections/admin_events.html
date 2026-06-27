@@ -1,0 +1,58 @@
+<div class="dashboard-panel">
+  <div class="dashboard-panel__header">
+    <div>
+      <p class="section-eyebrow">Events</p>
+      <h2>Club calendar</h2>
+      <p class="sx-page-hero__lede" style="margin-top:12px">Create outreach events, build sessions, and launches. Published items show on the public Events page.</p>
+    </div>
+    <a class="sx-btn sx-btn--fill sx-btn--compact" href="{% url 'core:event_create' %}">New event</a>
+  </div>
+
+  <div class="table-wrap dashboard-table-wrap">
+    <table class="site-table dashboard-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Title</th>
+          <th>Location</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for event in club_events %}
+        <tr>
+          <td>{{ event.date_label }}</td>
+          <td>
+            <strong>{{ event.title }}</strong>
+            {% if event.summary %}
+            <p class="dashboard-table__sub">{{ event.summary }}</p>
+            {% endif %}
+          </td>
+          <td>{{ event.location|default:"—" }}</td>
+          <td>
+            {% if event.published %}
+            <span class="dashboard-badge dashboard-badge--active">Published</span>
+            {% else %}
+            <span class="dashboard-badge dashboard-badge--pending">Draft</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="dashboard-table__actions">
+              <a class="dashboard-table__btn" href="{% url 'core:event_edit' event.id %}">Edit</a>
+              <form method="post" action="{% url 'core:event_delete' event.id %}">
+                {% csrf_token %}
+                <button class="dashboard-table__btn dashboard-table__btn--danger" type="submit">Delete</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5">No events yet. Create the first club event.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>

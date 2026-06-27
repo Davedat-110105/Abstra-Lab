@@ -1,0 +1,71 @@
+<div class="dashboard-panel">
+  <div class="dashboard-panel__header">
+    <div>
+      <p class="section-eyebrow">Build log</p>
+      <h2>Posts &amp; updates</h2>
+      <p class="sx-page-hero__lede" style="margin-top:12px">Write entries with title, excerpt, featured image, and full body content.</p>
+    </div>
+    <div class="dashboard-panel__actions">
+      <a class="sx-btn sx-btn--compact" href="{% url 'core:posts_list' %}">View public page</a>
+      <a class="sx-btn sx-btn--fill sx-btn--compact" href="{% url 'core:blog_create' %}">Write new post</a>
+    </div>
+  </div>
+
+  <div class="table-wrap dashboard-table-wrap">
+    <table class="site-table dashboard-table">
+      <thead>
+        <tr>
+          <th>Post</th>
+          <th>Author</th>
+          <th>Status</th>
+          <th>Created</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for post in blog_posts %}
+        <tr>
+          <td>
+            <div class="dashboard-table__post">
+              {% if post.featured_image %}
+              <img class="dashboard-table__thumb" src="{{ post.featured_image.url }}" alt="">
+              {% endif %}
+              <div>
+                <strong>{{ post.title }}</strong>
+                {% if post.excerpt %}
+                <p class="dashboard-table__sub">{{ post.excerpt }}</p>
+                {% endif %}
+              </div>
+            </div>
+          </td>
+          <td>{{ post.author.username }}</td>
+          <td>
+            {% if post.published %}
+            <span class="dashboard-badge dashboard-badge--active">Published</span>
+            {% else %}
+            <span class="dashboard-badge dashboard-badge--pending">Draft</span>
+            {% endif %}
+          </td>
+          <td>{{ post.created_at|date:"M j, Y" }}</td>
+          <td>
+            <div class="dashboard-table__actions">
+              {% if post.published %}
+              <a class="dashboard-table__btn" href="{% url 'core:post_detail' slug=post.slug %}">View</a>
+              {% endif %}
+              <a class="dashboard-table__btn" href="{% url 'core:blog_edit' slug=post.slug %}">Edit</a>
+              <form method="post" action="{% url 'core:blog_delete' slug=post.slug %}">
+                {% csrf_token %}
+                <button class="dashboard-table__btn dashboard-table__btn--danger" type="submit">Delete</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5">No posts yet. Write the first build log entry.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Projects - Astra Labs{% endblock %}
+
+{% block content %}
+<section class="sx-page-hero" style="background-image: url('{% static 'images/mission-earth.jpg' %}')">
+  <div class="wrap sx-page-hero__content range-ticks range-ticks--section">
+    <p class="section-eyebrow">Projects</p>
+    <h1>The program map from build bench to range day.</h1>
+    <p class="sx-page-hero__lede">These are the major places Pioneer has to pass through: payload planning, vehicle integration, telemetry, recovery, and Launch Canada operations.</p>
+    <div class="sx-page-hero__meta" aria-label="Destination roadmap facts">
+      <span>Vehicle roadmap</span>
+      <span>Competition path</span>
+      <span>Ground station</span>
+    </div>
+  </div>
+</section>
+
+<section class="sx-page-body">
+  <div class="wrap">
+    <div class="sx-page-intro range-ticks range-ticks--section">
+      <p class="section-eyebrow">Roadmap</p>
+      <h2>A mission map for the work that still has to converge.</h2>
+    </div>
+    <div class="sx-rows" aria-label="Pioneer destination roadmap">
+      {% for code, title, text in destinations %}
+      <article>
+        <span>{{ code }}</span>
+        <div>
+          <h3>{{ title }}</h3>
+          <p>{{ text }}</p>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="sx-split">
+  <div class="sx-split__copy range-ticks range-ticks--section">
+    <p class="section-eyebrow">Range path</p>
+    <h2>Build, test, document, launch, recover.</h2>
+    <p>Each destination is a checkpoint with evidence the team can review before moving to the next phase.</p>
+    <a class="sx-btn" href="{% url 'core:pioneer' %}">Inspect Pioneer</a>
+  </div>
+  <div class="sx-split__media" style="background-image: url('{% static 'images/hero-launch.jpg' %}')" role="img" aria-label="Rocket on the launch pad"></div>
+</section>
+
+<section class="sx-page-body sx-page-body--tight">
+  <div class="wrap">
+    <div class="sx-rows" aria-label="Pioneer range path">
+      <article><span>01</span><div><h3>Bench build</h3><p>Machine, wire, and document subsystems before they meet at integration.</p></div></article>
+      <article><span>02</span><div><h3>Subsystem test</h3><p>Controlled tests with recorded setup, expected result, and actual result.</p></div></article>
+      <article><span>03</span><div><h3>Integration review</h3><p>Fit checks, interface verification, and recovery-system validation.</p></div></article>
+      <article><span>04</span><div><h3>Range operations</h3><p>Launch Canada logistics, telemetry capture, and flight-day procedures.</p></div></article>
+      <article><span>05</span><div><h3>Recovery record</h3><p>Post-flight inspection, data download, and lessons for the next iteration.</p></div></article>
+    </div>
+  </div>
+</section>
+{% endblock %}

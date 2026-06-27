@@ -1,0 +1,78 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-astra}
+      POSTGRES_USER: ${POSTGRES_USER:-astra}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-astra} -d ${POSTGRES_DB:-astra}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  seaweedfs-master:
+    image: chrislusf/seaweedfs:latest
+    restart: unless-stopped
+    command: "master -ip=seaweedfs-master -mdir=/data -defaultReplication=000"
+    volumes:
+      - seaweed_master:/data
+
+  seaweedfs-volume:
+    image: chrislusf/seaweedfs:latest
+    restart: unless-stopped
+    command: "volume -mserver=seaweedfs-master:9333 -ip=seaweedfs-volume -port=8080 -dir=/data"
+    depends_on:
+      - seaweedfs-master
+    volumes:
+      - seaweed_volume:/data
+
+  seaweedfs-filer:
+    image: chrislusf/seaweedfs:latest
+    restart: unless-stopped
+    command: "filer -master=seaweedfs-master:9333 -ip=seaweedfs-filer"
+    depends_on:
+      - seaweedfs-master
+      - seaweedfs-volume
+    volumes:
+      - seaweed_filer:/data
+
+  seaweedfs-s3:
+    image: chrislusf/seaweedfs:latest
+    restart: unless-stopped
+    command: "s3 -filer=seaweedfs-filer:8888 -ip=seaweedfs-s3 -port=8333 -config=/config/s3.json"
+    depends_on:
+      - seaweedfs-filer
+    volumes:
+      - ./docker/seaweedfs-s3.json:/config/s3.json:ro
+    ports:
+      - "${SEAWEEDFS_S3_PUBLISH_PORT:-8333}:8333"
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${ASTRA_WEB_IMAGE:-astra-lab-web:latest}
+    restart: unless-stopped
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+      seaweedfs-s3:
+        condition: service_started
+    ports:
+      - "${WEB_PUBLISH_PORT:-8000}:8000"
+    volumes:
+      - ./references:/app/references:ro
+      - django_media:/app/abstra_lab/media
+
+volumes:
+  postgres_data:
+  seaweed_master:
+  seaweed_volume:
+  seaweed_filer:
+  django_media:

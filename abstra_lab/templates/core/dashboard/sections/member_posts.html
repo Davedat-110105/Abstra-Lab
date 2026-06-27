@@ -1,0 +1,47 @@
+<div class="dashboard-panel">
+  <div class="dashboard-panel__header">
+    <div>
+      <p class="section-eyebrow">Build log</p>
+      <h2>Posts</h2>
+    </div>
+    <a class="sx-btn sx-btn--compact" href="{% url 'core:dashboard' %}?section=overview">Back to overview</a>
+  </div>
+  <div class="table-wrap dashboard-table-wrap">
+    <table class="site-table dashboard-table">
+      <thead>
+        <tr>
+          <th>Post</th>
+          <th>Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for post in member_posts %}
+        <tr>
+          <td>
+            <div class="dashboard-table__post">
+              {% if post.featured_image %}
+              <img class="dashboard-table__thumb" src="{{ post.featured_image.url }}" alt="">
+              {% endif %}
+              <div>
+                <strong>{{ post.title }}</strong>
+                {% if post.excerpt %}
+                <p class="dashboard-table__sub">{{ post.excerpt }}</p>
+                {% endif %}
+              </div>
+            </div>
+          </td>
+          <td>{{ post.created_at|date:"M j, Y" }}</td>
+          <td>
+            <a class="dashboard-table__btn" href="{% url 'core:dashboard' %}?section=posts&amp;post={{ post.slug }}">Read</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="3">No published posts yet.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>

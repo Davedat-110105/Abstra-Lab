@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}About - Astra Labs{% endblock %}
+
+{% block content %}
+<section class="sx-page-hero" style="background-image: url('{% static 'images/aboutus.jpg' %}')">
+  <div class="wrap sx-page-hero__content range-ticks range-ticks--section">
+    <p class="section-eyebrow">About</p>
+    <h1>Engineering students building real hardware, documented in the open.</h1>
+    <p class="sx-page-hero__lede">Founded in 2025, Astra Labs is a student-run engineering group at Seneca Polytechnic. The mission is specific: build Pioneer for Launch Canada 2026, and leave behind a complete record of how we did it.</p>
+    <div class="sx-page-hero__meta" aria-label="Program facts">
+      <span>Founded 2025</span>
+      <span>Seneca Polytechnic</span>
+      <span>Launch Canada 2026</span>
+    </div>
+  </div>
+</section>
+
+<section class="sx-page-body">
+  <div class="wrap">
+    <div class="sx-page-intro range-ticks range-ticks--section">
+      <p class="section-eyebrow">Goals</p>
+      <h2>Build the vehicle, fund the work, and compete with traceable documentation.</h2>
+    </div>
+    <div class="sx-rows">
+      <article><span>01</span><div><h3>Connect the crew</h3><p>Unite Seneca students around launch-ready technical work. Shared accountability, shared tooling, shared data.</p></div></article>
+      <article><span>02</span><div><h3>Teach the process</h3><p>Make aerospace engineering, systems thinking, safety protocols, and documentation visible to new members at every skill level.</p></div></article>
+      <article><span>03</span><div><h3>Raise the program</h3><p>Secure funding for vehicle materials, ground-test equipment, travel, and competition fees. Sponsorship is a core skill, not an afterthought.</p></div></article>
+      <article><span>04</span><div><h3>Show the evidence</h3><p>Represent Seneca at Launch Canada with a student-built vehicle and a complete traceable record of every design decision.</p></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="sx-page-body sx-page-body--tight">
+  <div class="wrap">
+    <p class="section-eyebrow">Leadership</p>
+    <div class="table-wrap" style="margin-top:24px">
+      <table class="site-table">
+        <thead>
+          <tr><th>Name</th><th>Role</th><th>Responsibility</th></tr>
+        </thead>
+        <tbody>
+          {% for person in leadership %}
+          <tr>
+            <td>{{ person.name }}</td>
+            <td>{{ person.role }}</td>
+            <td>{{ person.responsibility }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="sx-page-body">
+  <div class="wrap">
+    <div class="sx-page-intro">
+      <p class="section-eyebrow">Core values</p>
+      <h2>How we work together</h2>
+    </div>
+    <div class="sx-rows">
+      {% for name, text in values %}
+      <article><span>Astra</span><div><h3>{{ name }}</h3><p>{{ text }}</p></div></article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="sx-split">
+  <div class="sx-split__media" style="background-image: url('{% static 'images/field/team-outdoor-01.jpg' %}')" role="img" aria-label="Astra Labs members during a field session"></div>
+  <div class="sx-split__copy range-ticks range-ticks--section">
+    <p class="section-eyebrow">Institutional support</p>
+    <h2>Built with faculty and campus partners.</h2>
+    <p>Faculty advisors: {{ faculty|join:", " }}.</p>
+    <p>Supported by {{ partners|join:" and " }}.</p>
+  </div>
+</section>
+
+<section class="sx-page-body sx-page-body--tight">
+  <div class="wrap">
+    <div class="discipline-rail">
+      <div class="range-ticks range-ticks--section">
+        <p class="section-eyebrow">Technical disciplines</p>
+        <h3>Aerospace work spans many specialities</h3>
+        <p>{{ disciplines|join:", " }}.</p>
+      </div>
+      <span>Relevant programs: {{ programs|join:", " }}</span>
+    </div>
+  </div>
+</section>
+{% endblock %}

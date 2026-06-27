@@ -1,0 +1,16 @@
+<div class="dashboard-panel">
+  <p class="section-eyebrow">Telemetry</p>
+  <h2>Latest Pioneer frame</h2>
+  {% if latest_frame %}
+  <div class="telemetry-kpis" style="margin-top:20px">
+    <div><span>Altitude</span><strong>{{ latest_frame.altitude_m|default:"—" }}</strong><small>m</small></div>
+    <div><span>Velocity</span><strong>{{ latest_frame.velocity_mps|default:"—" }}</strong><small>m/s</small></div>
+    <div><span>Battery</span><strong>{{ latest_frame.battery_v|default:"—" }}</strong><small>V</small></div>
+    <div><span>RSSI</span><strong>{{ latest_frame.rssi_dbm|default:"—" }}</strong><small>dBm</small></div>
+  </div>
+  <p class="sx-page-hero__lede" style="margin-top:16px">Updated {{ latest_frame.received_at|date:"M j, H:i:s" }} UTC</p>
+  {% else %}
+  <p class="sx-page-hero__lede" style="margin-top:16px">No flight data yet. The console will populate once the ground station sends frames.</p>
+  {% endif %}
+  <a class="sx-btn" href="{% url 'telemetry:dashboard' %}" style="margin-top:20px">Open telemetry console</a>
+</div>

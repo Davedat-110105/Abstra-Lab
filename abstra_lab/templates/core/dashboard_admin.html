@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Astra Labs{% endblock %}
+{% block body_class %}dashboard-page dashboard-page--admin{% endblock %}
+
+{% block content %}
+{% include "core/includes/dashboard_topbar.html" with topbar_eyebrow="Admin dashboard" topbar_title="Operations" topbar_meta=topbar_meta_items %}
+
+{% if messages %}
+<section class="sx-page-body sx-page-body--tight dashboard-flash-wrap">
+  <div class="wrap">
+    {% for message in messages %}
+    <p class="dashboard-flash dashboard-flash--{{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<section class="sx-page-body dashboard-body">
+  <div class="wrap dashboard-layout">
+    <div class="dashboard-layout__main">
+      {% include section_template %}
+    </div>
+    {% include "core/includes/dashboard_sidebar.html" %}
+  </div>
+</section>
+{% endblock %}

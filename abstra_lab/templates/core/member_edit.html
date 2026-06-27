@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Edit {{ member.username }} — Astra Labs{% endblock %}
+{% block body_class %}dashboard-page{% endblock %}
+
+{% block content %}
+<section class="sx-tool">
+  <div class="sx-tool__intro range-ticks range-ticks--section">
+    <p class="section-eyebrow">Member management</p>
+    <h1>Edit account</h1>
+    <p class="sx-page-hero__lede">Update username, email, name, or reset password for @{{ member.username }}.</p>
+  </div>
+
+  <div class="sx-tool__panel sx-tool__panel--wide">
+    <form class="sx-form" method="post" style="max-width:560px">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+      <div class="auth-error">{{ form.non_field_errors }}</div>
+      {% endif %}
+
+      <div class="auth-field">
+        <span>Username</span>
+        {{ form.username }}
+        {% if form.username.errors %}<div class="auth-error">{{ form.username.errors }}</div>{% endif %}
+      </div>
+
+      <div class="auth-field">
+        <span>Email</span>
+        {{ form.email }}
+        {% if form.email.errors %}<div class="auth-error">{{ form.email.errors }}</div>{% endif %}
+      </div>
+
+      <div class="auth-field">
+        <span>First name</span>
+        {{ form.first_name }}
+        {% if form.first_name.errors %}<div class="auth-error">{{ form.first_name.errors }}</div>{% endif %}
+      </div>
+
+      <div class="auth-field">
+        <span>Last name</span>
+        {{ form.last_name }}
+        {% if form.last_name.errors %}<div class="auth-error">{{ form.last_name.errors }}</div>{% endif %}
+      </div>
+
+      <div class="auth-field">
+        <span>New password</span>
+        {{ form.password }}
+        {% if form.password.help_text %}<p class="auth-hint">{{ form.password.help_text }}</p>{% endif %}
+        {% if form.password.errors %}<div class="auth-error">{{ form.password.errors }}</div>{% endif %}
+      </div>
+
+      <div class="sx-form__actions">
+        <button class="sx-btn sx-btn--fill" type="submit">Save changes</button>
+        <a class="sx-btn" href="{% url 'core:dashboard' %}?section=members">Cancel</a>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

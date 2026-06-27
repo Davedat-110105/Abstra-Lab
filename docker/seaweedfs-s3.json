@@ -1,0 +1,14 @@
+{
+  "identities": [
+    {
+      "name": "astra",
+      "credentials": [
+        {
+          "accessKey": "astra_access_key",
+          "secretKey": "astra_secret_key"
+        }
+      ],
+      "actions": ["Admin", "Read", "Write"]
+    }
+  ]
+}

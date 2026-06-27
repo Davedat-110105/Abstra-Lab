@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}{% if editing %}Edit{% else %}Upload{% endif %} library file — Astra Labs{% endblock %}
+{% block body_class %}dashboard-page{% endblock %}
+
+{% block content %}
+<section class="sx-tool">
+  <div class="sx-tool__intro range-ticks range-ticks--section">
+    <p class="section-eyebrow">{% if editing %}Edit file{% else %}Upload file{% endif %}</p>
+    <h1>{% if editing %}Update library asset.{% else %}Add a library asset.{% endif %}</h1>
+    <p class="sx-page-hero__lede">Images are stored in <code>media/images/</code>. Documents and videos go to <code>references/uploads/</code>.</p>
+  </div>
+
+  <div class="sx-tool__panel sx-tool__panel--wide">
+    <form class="sx-form sx-form--editor" method="post" enctype="multipart/form-data" style="max-width:640px">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+      <div class="auth-error">{{ form.non_field_errors }}</div>
+      {% endif %}
+
+      <div class="auth-field">
+        <span>Title</span>
+        {{ form.title }}
+        {% if form.title.errors %}<div class="auth-error">{{ form.title.errors }}</div>{% endif %}
+      </div>
+
+      <div class="auth-field">
+        <span>Kind</span>
+        {{ form.kind }}
+        {% if form.kind.errors %}<div class="auth-error">{{ form.kind.errors }}</div>{% endif %}
+      </div>
+
+      <div class="auth-field">
+        <span>Folder</span>
+        {{ form.folder }}
+        {% if form.folder.errors %}<div class="auth-error">{{ form.folder.errors }}</div>{% endif %}
+      </div>
+
+      <div class="auth-field">
+        <span>{{ form.new_folder.label }}</span>
+        {{ form.new_folder }}
+        {% if form.new_folder.errors %}<div class="auth-error">{{ form.new_folder.errors }}</div>{% endif %}
+      </div>
+
+      <div class="auth-field">
+        <span>Description</span>
+        {{ form.description }}
+        {% if form.description.errors %}<div class="auth-error">{{ form.description.errors }}</div>{% endif %}
+      </div>
+
+      <div class="auth-field">
+        <span>File</span>
+        {% if editing and asset.filename %}
+        {% include "core/includes/styled_file_field.html" with field=form.upload button_label="Choose file" filename=asset.filename %}
+        {% else %}
+        {% include "core/includes/styled_file_field.html" with field=form.upload button_label="Choose file" %}
+        {% endif %}
+        {% if form.upload.errors %}<div class="auth-error">{{ form.upload.errors }}</div>{% endif %}
+        {% if editing and asset.is_image %}
+        <div class="content-form__preview">
+          <img src="{{ asset.image.url }}" alt="Current image">
+        </div>
+        {% endif %}
+        {% if editing and asset.filename %}
+        <label class="sx-form__check">
+          {{ form.clear_upload }}
+          <span>{{ form.clear_upload.label }}</span>
+        </label>
+        {% endif %}
+      </div>
+
+      <label class="sx-form__check">
+        {{ form.published }}
+        <span>Publish for members</span>
+      </label>
+
+      <div class="sx-form__actions">
+        <button class="sx-btn sx-btn--fill" type="submit">{% if editing %}Save changes{% else %}Upload file{% endif %}</button>
+        <a class="sx-btn" href="{% url 'core:dashboard' %}?section=library">Cancel</a>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

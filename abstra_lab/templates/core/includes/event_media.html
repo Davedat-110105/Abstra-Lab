@@ -1,0 +1,7 @@
+{% if event.has_media %}
+  {% if event.is_event_video %}
+  <video class="{{ media_class }}" src="{{ event.image.url }}" controls playsinline preload="metadata"></video>
+  {% else %}
+  <img class="{{ media_class }}" src="{{ event.image.url }}" alt="{{ event.title }}">
+  {% endif %}
+{% endif %}

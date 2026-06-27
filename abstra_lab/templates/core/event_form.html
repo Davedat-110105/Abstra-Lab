@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}{% if editing %}Edit{% else %}New{% endif %} event — Astra Labs{% endblock %}
+{% block body_class %}dashboard-page{% endblock %}
+
+{% block content %}
+<section class="sx-tool">
+  <div class="sx-tool__intro range-ticks range-ticks--section">
+    <p class="section-eyebrow">{% if editing %}Edit event{% else %}New event{% endif %}</p>
+    <h1>{% if editing %}Update club event.{% else %}Add a club event.{% endif %}</h1>
+    <p class="sx-page-hero__lede">Published events appear on the public Events page for members and recruits.</p>
+  </div>
+
+  <div class="sx-tool__panel sx-tool__panel--wide">
+    <form class="sx-form sx-form--editor" method="post" enctype="multipart/form-data" style="max-width:640px">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+      <div class="auth-error">{{ form.non_field_errors }}</div>
+      {% endif %}
+
+      <div class="auth-field">
+        <span>Title</span>
+        {{ form.title }}
+        {% if form.title.errors %}<div class="auth-error">{{ form.title.errors }}</div>{% endif %}
+      </div>
+
+      <div class="auth-field">
+        <span>Date label</span>
+        {{ form.date_label }}
+        {% if form.date_label.errors %}<div class="auth-error">{{ form.date_label.errors }}</div>{% endif %}
+      </div>
+
+      <div class="auth-field">
+        <span>Summary</span>
+        {{ form.summary }}
+        {% if form.summary.errors %}<div class="auth-error">{{ form.summary.errors }}</div>{% endif %}
+      </div>
+
+      <div class="auth-field">
+        <span>Description</span>
+        {{ form.description }}
+        {% if form.description.errors %}<div class="auth-error">{{ form.description.errors }}</div>{% endif %}
+      </div>
+
+      <div class="auth-field">
+        <span>Location</span>
+        {{ form.location }}
+        {% if form.location.errors %}<div class="auth-error">{{ form.location.errors }}</div>{% endif %}
+      </div>
+
+      <div class="auth-field">
+        <span>Starts at (optional)</span>
+        <div class="datetime-split">
+          {{ form.start_date }}
+          {{ form.start_time }}
+        </div>
+        {% if form.start_date.errors %}<div class="auth-error">{{ form.start_date.errors }}</div>{% endif %}
+        {% if form.start_time.errors %}<div class="auth-error">{{ form.start_time.errors }}</div>{% endif %}
+      </div>
+
+      <div class="auth-field">
+        <span>Image or video</span>
+        {% if editing and event.has_media %}
+        {% include "core/includes/styled_file_field.html" with field=form.image button_label="Choose file" filename=event.image.name %}
+        {% else %}
+        {% include "core/includes/styled_file_field.html" with field=form.image button_label="Choose file" %}
+        {% endif %}
+        {% if form.image.errors %}<div class="auth-error">{{ form.image.errors }}</div>{% endif %}
+        {% if editing and event.has_media and not form.image.errors %}
+        <div class="content-form__preview">
+          {% include "core/includes/event_media.html" with event=event media_class="" %}
+        </div>
+        <label class="sx-form__check">
+          {{ form.clear_image }}
+          <span>{{ form.clear_image.label }}</span>
+        </label>
+        {% endif %}
+      </div>
+
+      <label class="sx-form__check">
+        {{ form.published }}
+        <span>Publish on the public Events page</span>
+      </label>
+
+      <div class="sx-form__actions">
+        <button class="sx-btn sx-btn--fill" type="submit">{% if editing %}Save changes{% else %}Create event{% endif %}</button>
+        <a class="sx-btn" href="{% url 'core:dashboard' %}?section=events">Cancel</a>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

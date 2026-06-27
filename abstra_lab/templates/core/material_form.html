@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}{% if editing %}Edit{% else %}Add{% endif %} material — Astra Labs{% endblock %}
+{% block body_class %}dashboard-page{% endblock %}
+
+{% block content %}
+<section class="sx-tool">
+  <div class="sx-tool__intro range-ticks range-ticks--section">
+    <p class="section-eyebrow">{% if editing %}Edit item{% else %}New item{% endif %}</p>
+    <h1>{% if editing %}Update a build supply entry.{% else %}Add a build supply entry.{% endif %}</h1>
+    <p class="sx-page-hero__lede">Members use this list to find parts and tools to buy for Pioneer builds. Club files and photos belong in <strong>Library</strong>, not here.</p>
+  </div>
+
+  <div class="sx-tool__panel sx-tool__panel--wide">
+    <form class="sx-form sx-form--editor" method="post" style="max-width:640px">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+      <div class="auth-error">{{ form.non_field_errors }}</div>
+      {% endif %}
+
+      <div class="auth-field">
+        <span>Type</span>
+        {{ form.material_type }}
+        {% if form.material_type.errors %}<div class="auth-error">{{ form.material_type.errors }}</div>{% endif %}
+      </div>
+
+      <div class="auth-field">
+        <span>Name</span>
+        {{ form.name }}
+        {% if form.name.errors %}<div class="auth-error">{{ form.name.errors }}</div>{% endif %}
+      </div>
+
+      <div class="auth-field">
+        <span>Summary</span>
+        {{ form.summary }}
+        {% if form.summary.errors %}<div class="auth-error">{{ form.summary.errors }}</div>{% endif %}
+      </div>
+
+      <div class="auth-field">
+        <span>Build use</span>
+        {{ form.used_for }}
+        {% if form.used_for.errors %}<div class="auth-error">{{ form.used_for.errors }}</div>{% endif %}
+      </div>
+
+      <div class="auth-field">
+        <span>Buy link</span>
+        {{ form.purchase_url }}
+        {% if form.purchase_url.errors %}<div class="auth-error">{{ form.purchase_url.errors }}</div>{% endif %}
+      </div>
+
+      <div class="auth-field">
+        <span>Access note (no link)</span>
+        {{ form.access }}
+        {% if form.access.errors %}<div class="auth-error">{{ form.access.errors }}</div>{% endif %}
+      </div>
+
+      <div class="auth-field">
+        <span>Sort order</span>
+        {{ form.sort_order }}
+        {% if form.sort_order.errors %}<div class="auth-error">{{ form.sort_order.errors }}</div>{% endif %}
+      </div>
+
+      <label class="sx-form__check">
+        {{ form.published }}
+        <span>Publish for members</span>
+      </label>
+
+      <div class="sx-form__actions">
+        <button class="sx-btn sx-btn--fill" type="submit">{% if editing %}Save changes{% else %}Add item{% endif %}</button>
+        <a class="sx-btn" href="{% url 'core:dashboard' %}?section=materials">Cancel</a>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

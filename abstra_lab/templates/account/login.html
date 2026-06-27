@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Astra Labs{% endblock %}
+{% block body_class %}auth-page{% endblock %}
+
+{% block content %}
+<section class="sx-tool">
+  <div class="sx-tool__intro range-ticks range-ticks--section">
+    <p class="section-eyebrow">Crew access</p>
+    <h1>Sign in to member tools.</h1>
+    <p class="sx-page-hero__lede">Telemetry dashboards and flight records live behind member login. New members must sign up and wait for admin approval before signing in.</p>
+  </div>
+
+  <div class="sx-tool__panel">
+    {% include "account/includes/google_signin.html" %}
+    {% if google_oauth_enabled %}
+    <p class="auth-divider"><span>or sign in with username</span></p>
+    {% endif %}
+
+    <form class="sx-form" method="post" action="{% url 'account_login' %}">
+      {% csrf_token %}
+      {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+      {% endif %}
+
+      {% if form.non_field_errors %}
+      <div class="auth-error" role="alert">{{ form.non_field_errors|join:", " }}</div>
+      {% elif form.errors %}
+      <div class="auth-error" role="alert">The username or password did not match an active account.</div>
+      {% endif %}
+
+      <div class="auth-field">
+        <span>Username or email</span>
+        {{ form.login }}
+      </div>
+
+      <div class="auth-field">
+        <span>Password</span>
+        {{ form.password }}
+      </div>
+
+      <div class="sx-form__actions">
+        <button class="sx-btn sx-btn--fill" type="submit">Sign in</button>
+        <a class="sx-btn" href="{% url 'account_signup' %}">Create account</a>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

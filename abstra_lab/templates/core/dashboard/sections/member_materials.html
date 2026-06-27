@@ -1,0 +1,47 @@
+<div class="dashboard-panel">
+  <div class="dashboard-panel__header">
+    <div>
+      <p class="section-eyebrow">Build supplies</p>
+      <h2>Materials to buy</h2>
+      <p class="sx-page-hero__lede" style="margin-top:12px">Parts, tools, and software the club recommends when you are building Pioneer hardware — buy links where we have them.</p>
+    </div>
+    <a class="sx-btn sx-btn--compact" href="{% url 'core:dashboard' %}?section=overview">Back to overview</a>
+  </div>
+  <div class="table-wrap dashboard-table-wrap">
+    <table class="site-table dashboard-table">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Item</th>
+          <th>Build use</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in member_materials %}
+        <tr>
+          <td><span class="dashboard-badge dashboard-badge--material dashboard-badge--{{ item.material_type }}">{{ item.get_material_type_display }}</span></td>
+          <td>
+            <strong>{{ item.name }}</strong>
+            <p class="dashboard-table__sub">{{ item.summary }}</p>
+          </td>
+          <td>{{ item.used_for }}</td>
+          <td>
+            {% if item.purchase_url %}
+            <a class="dashboard-table__btn" href="{{ item.purchase_url }}" target="_blank" rel="noopener">Buy</a>
+            {% elif item.access %}
+            {{ item.access }}
+            {% else %}
+            <span class="dashboard-table__sub">Ask a lead</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4">No published materials yet. The crew will add buy lists here as builds open up.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>

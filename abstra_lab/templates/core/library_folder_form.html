@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}New library folder — Astra Labs{% endblock %}
+{% block body_class %}dashboard-page{% endblock %}
+
+{% block content %}
+<section class="sx-tool">
+  <div class="sx-tool__intro range-ticks range-ticks--section">
+    <p class="section-eyebrow">Library</p>
+    <h1>Create a folder.</h1>
+    <p class="sx-page-hero__lede">Organize references, photos, CAD exports, and competition docs before uploading files.</p>
+  </div>
+
+  <div class="sx-tool__panel sx-tool__panel--wide">
+    <form class="sx-form sx-form--editor" method="post" style="max-width:480px">
+      {% csrf_token %}
+      <div class="auth-field">
+        <span>Folder name</span>
+        {{ form.name }}
+        {% if form.name.errors %}<div class="auth-error">{{ form.name.errors }}</div>{% endif %}
+      </div>
+      <div class="auth-field">
+        <span>Sort order</span>
+        {{ form.sort_order }}
+        {% if form.sort_order.errors %}<div class="auth-error">{{ form.sort_order.errors }}</div>{% endif %}
+      </div>
+      <div class="sx-form__actions">
+        <button class="sx-btn sx-btn--fill" type="submit">Create folder</button>
+        <a class="sx-btn" href="{% url 'core:dashboard' %}?section=library">Cancel</a>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

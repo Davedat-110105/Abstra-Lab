@@ -1,7 +1,0 @@
-.next/
-node_modules/
-*.tsbuildinfo
-.DS_Store
-.vercel
-.env*
-public/uploads/

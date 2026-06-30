@@ -5,6 +5,7 @@
 .DS_Store
 .agents/
 .codex/
+.vercel/
 /references/
 
 # Python leftovers/tools
@@ -32,3 +33,4 @@ htmlcov/
 node_modules/
 .next/
 *.tsbuildinfo
+public/uploads/

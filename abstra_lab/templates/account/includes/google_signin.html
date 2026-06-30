@@ -1,6 +1,0 @@
-{% load socialaccount %}
-{% if google_oauth_enabled %}
-<div class="auth-oauth">
-  <a class="sx-btn sx-btn--google" href="{% provider_login_url 'google' process='login' %}">Continue with Google</a>
-</div>
-{% endif %}

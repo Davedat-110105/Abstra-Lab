@@ -59,7 +59,7 @@ All members: Join Discord, get Google Drive access, install required software, r
 
 ## Website Purpose
 
-This MkDocs site serves as the club's **public-facing documentation of their journey**:
+This Next.js site serves as the club's **public-facing documentation of their journey**:
 
 - **Journal** — Meeting notes, milestones, discoveries, reflections along the way to Launch Canada 2026
 - **Projects** — Technical write-ups of subsystems (airframe, avionics, telemetry, payload)

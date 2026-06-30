@@ -1,0 +1,66 @@
+import Link from "next/link";
+import { collaborations, fieldGallery } from "../content";
+import { bg, Gallery, PageHero, Rows } from "../page-sections";
+
+export default function PioneerPage() {
+  return (
+    <>
+      <PageHero
+        eyebrow="Vehicle program"
+        title="Pioneer is the current build."
+        lede="Designed, machined, wired, and tested by students. Every subsystem is integrated in-house — mechanical, electronics, and operations."
+        image="/images/field/rocket-prep-01.jpg"
+        meta={["Student-built", "Bench-tested", "No outsourcing"]}
+      />
+
+      <section className="sx-page-body">
+        <div className="wrap">
+          <div className="sx-page-intro range-ticks range-ticks--section">
+            <p className="section-eyebrow">Subsystems</p>
+            <h2>Designed, simulated, assembled, and tested in-house.</h2>
+          </div>
+          <Rows
+            items={[
+              ["MECH", "Mechanical", "Airframe design, OpenRocket simulations, CFD/FEA validation, recovery-system design, and physical integration. Every part is either machined or justified."],
+              ["ELEC", "Electronics", "Custom SRAD avionics, STM32 flight computers, KiCad PCB design, sensors, and telemetry systems. Ground-tested before flight."],
+              ["OPS", "Operations", "Sponsorships, budget management, logistics, documentation, and launch coordination. The paperwork is as important as the wiring."],
+            ]}
+          />
+        </div>
+      </section>
+
+      <section className="sx-split">
+        <div className="sx-split__media" style={bg("/images/field/shop-session-01.jpg")} role="img" aria-label="Astra Labs members working on rocket hardware in the shop" />
+        <div className="sx-split__copy range-ticks range-ticks--section">
+          <p className="section-eyebrow">Integration</p>
+          <h2>Subsystems converge at the vehicle.</h2>
+          <p>Mechanical, electronics, operations, and documentation feed into one launch-ready configuration. Shared requirements, shared handoff points, shared accountability.</p>
+          <Link className="sx-btn" href="/projects">
+            View program map
+          </Link>
+        </div>
+      </section>
+
+      <section className="sx-page-body sx-page-body--tight">
+        <div className="wrap">
+          <div className="sx-page-intro">
+            <p className="section-eyebrow">Collaborations</p>
+            <h2>Cross-institutional partnerships.</h2>
+          </div>
+          <Rows items={collaborations.map(([name, text]) => ["Partner", name, text])} />
+        </div>
+      </section>
+
+      <section className="sx-gallery-band">
+        <div className="wrap">
+          <div className="sx-page-intro range-ticks range-ticks--section">
+            <p className="section-eyebrow">Field record</p>
+            <h2>Launch days, shop work, and everything in between.</h2>
+            <p className="sx-page-hero__lede" style={{ marginTop: 12 }}>Photos from range days, shop sessions, outreach events, and integration work.</p>
+          </div>
+        </div>
+        <Gallery items={fieldGallery} />
+      </section>
+    </>
+  );
+}

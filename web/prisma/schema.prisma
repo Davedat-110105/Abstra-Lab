@@ -1,0 +1,147 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x", "linux-arm64-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  password  String
+  username  String    @unique
+  firstName String    @map("first_name")
+  lastName  String    @map("last_name")
+  email     String
+  isSuperuser Boolean @map("is_superuser")
+  isStaff   Boolean   @map("is_staff")
+  isActive  Boolean   @map("is_active")
+  dateJoined DateTime @map("date_joined")
+  posts     BlogPost[]
+  events    ClubEvent[]
+  profile   MemberProfile?
+  materials BuildMaterial[]
+  assets    LibraryAsset[]
+
+  @@map("auth_user")
+}
+
+model MemberProfile {
+  id       BigInt    @id @default(autoincrement())
+  isBanned Boolean   @map("is_banned")
+  bannedAt DateTime? @map("banned_at")
+  userId   Int       @unique @map("user_id")
+  user     User      @relation(fields: [userId], references: [id])
+
+  @@map("core_memberprofile")
+}
+
+model BuildMaterial {
+  id               BigInt   @id @default(autoincrement())
+  materialType     String   @map("material_type")
+  name             String
+  summary          String
+  usedFor          String   @map("used_for")
+  access           String
+  urlName          String   @map("url_name")
+  dashboardSection String   @map("dashboard_section")
+  accessLabel      String   @map("access_label")
+  purchaseUrl      String   @map("purchase_url")
+  published        Boolean
+  sortOrder        Int      @map("sort_order")
+  authorId         Int?     @map("author_id")
+  author           User?    @relation(fields: [authorId], references: [id])
+  createdAt        DateTime @map("created_at")
+  updatedAt        DateTime @map("updated_at")
+
+  @@map("core_buildmaterial")
+}
+
+model LibraryFolder {
+  id        BigInt         @id @default(autoincrement())
+  name      String         @unique
+  sortOrder Int            @map("sort_order")
+  createdAt DateTime       @map("created_at")
+  assets    LibraryAsset[]
+
+  @@map("core_libraryfolder")
+}
+
+model LibraryAsset {
+  id            BigInt         @id @default(autoincrement())
+  title         String
+  kind          String
+  description   String
+  image         String?
+  referenceFile String?        @map("reference_file")
+  sourcePath    String         @map("source_path")
+  published     Boolean
+  folderId      BigInt?        @map("folder_id")
+  folder        LibraryFolder? @relation(fields: [folderId], references: [id])
+  authorId      Int?           @map("author_id")
+  author        User?          @relation(fields: [authorId], references: [id])
+  createdAt     DateTime       @map("created_at")
+  updatedAt     DateTime       @map("updated_at")
+
+  @@map("core_libraryasset")
+}
+
+model BlogPost {
+  id            BigInt   @id @default(autoincrement())
+  title         String
+  slug          String   @unique
+  excerpt       String
+  content       String
+  featuredImage String?  @map("featured_image")
+  published     Boolean
+  authorId      Int      @map("author_id")
+  author        User     @relation(fields: [authorId], references: [id])
+  createdAt     DateTime @map("created_at")
+  updatedAt     DateTime @map("updated_at")
+
+  @@map("core_blogpost")
+}
+
+model ClubEvent {
+  id          BigInt    @id @default(autoincrement())
+  title       String
+  slug        String    @unique
+  dateLabel   String    @map("date_label")
+  summary     String
+  description String
+  location    String
+  startsAt    DateTime? @map("starts_at")
+  image       String?
+  published   Boolean
+  authorId    Int?      @map("author_id")
+  author      User?     @relation(fields: [authorId], references: [id])
+  createdAt   DateTime  @map("created_at")
+  updatedAt   DateTime  @map("updated_at")
+
+  @@map("core_clubevent")
+}
+
+model TelemetryFrame {
+  id                BigInt   @id @default(autoincrement())
+  receivedAt        DateTime @map("received_at")
+  groundStation     String   @map("ground_station")
+  packetKind        String   @map("packet_kind")
+  sequenceNumber    Int?     @map("sequence_number")
+  rocketTimeMs      BigInt?  @map("rocket_time_ms")
+  altitudeM         Float?   @map("altitude_m")
+  velocityMps       Float?   @map("velocity_mps")
+  accelerationMps2  Float?   @map("acceleration_mps2")
+  latitude          Float?
+  longitude         Float?
+  batteryV          Float?   @map("battery_v")
+  temperatureC      Float?   @map("temperature_c")
+  pressurePa        Float?   @map("pressure_pa")
+  rssiDbm           Float?   @map("rssi_dbm")
+  raw               Json
+  createdAt         DateTime @map("created_at")
+  flightSessionId   BigInt?  @map("flight_session_id")
+
+  @@map("telemetry_telemetryframe")
+}

@@ -39,6 +39,18 @@ export default function SponsorPage() {
         </div>
       </section>
 
+      <section className="sx-page-body sx-page-body--tight">
+        <div className="wrap">
+          <div className="sx-page-intro range-ticks range-ticks--section">
+            <p className="section-eyebrow">Supporters</p>
+            <h2>Backed by organizations helping students build.</h2>
+          </div>
+          <div className="supporter-strip" aria-label="Astra Labs supporters">
+            <img src="/images/partners/robotshop-logo.jpg" alt="RobotShop" />
+          </div>
+        </div>
+      </section>
+
       <section className="sx-page-body" id="sponsor-package">
         <div className="wrap">
           <div className="sx-package-head">

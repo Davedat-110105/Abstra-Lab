@@ -332,12 +332,12 @@ body.nav-open .sx-menu-btn__bar:nth-child(3) {
   letter-spacing: 0.02em;
   color: var(--chalk);
   border-bottom: 1px solid var(--rim);
-  transition: color 0.2s, padding-left 0.2s;
+  transition: color 0.2s, transform 0.2s;
 }
 
 .nav-drawer__list a:hover {
   color: var(--ash);
-  padding-left: 8px;
+  transform: translateX(8px);
 }
 
 .nav-drawer__list a[aria-current="page"] {
@@ -1879,6 +1879,20 @@ body.nav-open {
   margin-top: 4px;
   color: var(--muted);
   line-height: 1.45;
+}
+
+.supporter-strip {
+  display: flex;
+  align-items: center;
+  margin-top: 28px;
+  padding: 28px;
+  border: 1px solid var(--rim);
+  background: var(--chalk);
+}
+
+.supporter-strip img {
+  width: min(420px, 100%);
+  height: auto;
 }
 
 /* Gallery — intro constrained, grid full bleed */

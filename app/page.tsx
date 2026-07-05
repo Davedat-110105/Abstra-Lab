@@ -97,7 +97,7 @@ export default function Home() {
           className="sx-split__media"
           role="img"
           aria-label="Crew documenting bench work and ship notes"
-          style={bg("/images/field/workshop-01.jpg")}
+          style={bg("/images/field/shop-session-01.jpg")}
         />
         <div className="sx-split__copy range-ticks range-ticks--section reveal visible">
           <p className="section-eyebrow">Build log</p>
@@ -113,7 +113,7 @@ export default function Home() {
       </section>
 
       <section className="sx-block">
-        <div className="sx-block__bg" style={bg("/images/joinus.jpg")} />
+        <div className="sx-block__bg" style={bg("/images/field/assembly-01.jpg")} />
         <div className="sx-block__inner reveal visible">
           <h2>Partner with Astra Labs.</h2>
           <p>Partners fund fabrication, workshops, and competition readiness. See where support goes.</p>

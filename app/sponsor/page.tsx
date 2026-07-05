@@ -28,13 +28,6 @@ export default function SponsorPage() {
             <p className="sx-page-hero__lede" style={{ marginTop: 12 }}>Fin graphics and electronics artwork can carry partner marks, acknowledgments, or campaign visuals.</p>
           </div>
           <div className="sponsor-example-grid">
-            <figure className="sponsor-example-card">
-              <img src="/media/images/image.png" alt="Rocket fin profile drawing with measurement coordinates" />
-              <figcaption>
-                <span>Fin profile</span>
-                <small>Color, vinyl, or engraved sponsor treatment on the stabilizing fins.</small>
-              </figcaption>
-            </figure>
             <figure className="sponsor-example-card sponsor-example-card--dark">
               <img src="/media/images/image1.png" alt="Astra Labs circular PCB artwork with sponsor marks" />
               <figcaption>

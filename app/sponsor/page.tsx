@@ -47,6 +47,10 @@ export default function SponsorPage() {
           </div>
           <div className="supporter-strip" aria-label="Astra Labs supporters">
             <img src="/images/partners/robotshop-logo.jpg" alt="RobotShop" />
+            <img src="/images/partners/seneca-helix-logo.png" alt="Seneca HELIX" />
+            <img src="/images/partners/ssf-logo.png" alt="SSF" />
+            <img src="/images/partners/seneca-alumni-logo.png" alt="Seneca Alumni" />
+            <img src="/images/partners/star-logo.png" alt="Space Technology and Aeronautical Rocketry" />
           </div>
         </div>
       </section>

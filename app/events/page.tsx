@@ -1,8 +1,17 @@
 import { clubSignupUrl, eventFaqs, workshop } from "../content";
 import { getPublicEvents } from "../../lib/public-content";
 import { bg, PageHero, Rows } from "../page-sections";
+import { pageMetadata } from "../seo";
 
 export const dynamic = "force-dynamic";
+
+export const metadata = pageMetadata({
+  title: "Events",
+  description:
+    "Work sessions, payload workshops, and launches at Astra Labs. New members are welcome year-round — no prior rocketry experience required.",
+  path: "/events",
+  image: "/images/pick/outreach-raise-rocket.jpg",
+});
 
 export default async function EventsPage() {
   const events = await getPublicEvents();
@@ -13,7 +22,7 @@ export default async function EventsPage() {
         eyebrow="Events"
         title="How to enter the program."
         lede="New members are welcome year-round. No prior rocketry experience is required. We look for curiosity, consistency, and clear documentation."
-        image="/images/joinus.jpg"
+        image="/images/pick/outreach-raise-rocket.jpg"
         meta={["Open intake", "5 hr / week expected", "Seneca students only"]}
       />
 
@@ -52,7 +61,7 @@ export default async function EventsPage() {
       </section>
 
       <section className="sx-split">
-        <div className="sx-split__media" style={bg("/images/field/assembly-01.jpg")} role="img" aria-label="Students assembling payload hardware on the bench" />
+        <div className="sx-split__media" style={bg("/images/pick/workshop-floor.jpg")} role="img" aria-label="Students assembling airframe and composite hardware" />
         <div className="sx-split__copy range-ticks range-ticks--section">
           <p className="section-eyebrow">{workshop.title}</p>
           <h2>Hands-on payload builds for fifty students.</h2>

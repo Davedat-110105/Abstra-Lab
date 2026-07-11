@@ -10,20 +10,20 @@ export const collaborations = [
 ] as const;
 
 export const fieldGallery = [
-  ["field/team-rockets-2026.jpg", "Crew with rockets", "Astra Labs members outside Seneca with student-built display rockets.", "feature"],
-  ["field/cslc-panel-2026.jpg", "Launch conference panel", "Canadian Space Launch Conference session with industry and rocket builders.", ""],
-  ["field/cslc-stage-2026.jpg", "Conference stage", "Astra Labs following national launch-sector talks and networking.", ""],
-  ["field/cslc-museum-2026.jpg", "Aviation museum floor", "Aircraft and aerospace exhibits from the conference venue.", "wide"],
-  ["field/aerial-oct2025.jpg", "Range landscape", "Aerial view from the Ontario launch area — where Pioneer will eventually fly.", "feature"],
-  ["field/shop-session-01.jpg", "Shop session", "Hands-on build work with the crew on club hardware.", ""],
-  ["field/rocket-prep-01.jpg", "Vehicle prep", "Airframe and recovery hardware staged before integration.", "tall"],
-  ["field/team-outdoor-01.jpg", "Field day", "The crew on site during an outdoor build and test session.", ""],
-  ["field/assembly-01.jpg", "Assembly bench", "Students fitting subsystems and documenting handoffs.", ""],
-  ["field/aerial-wide-01.jpg", "Launch corridor", "Open sky above the practice range — apogee target 2.8 km.", "wide"],
-  ["field/workshop-01.jpg", "Workshop floor", "Fabrication and integration work in progress.", ""],
-  ["field/team-group-01.jpg", "Crew on the pad", "Astra Labs members during a field operations day.", ""],
-  ["gal06.jpg", "Campus recruitment", "New students meeting the team and seeing how they can join the build.", ""],
-  ["updates.jpg", "Outreach board", "Project updates and club materials shared at campus events.", "wide"],
+  ["pick/team-range-alt.jpg", "Crew on the range", "Astra Labs members with the vehicle at Launch Canada — full team on the sand.", "feature"],
+  ["pick/ground-station.jpg", "Ground station", "Telemetry and range electronics staged for flight operations.", ""],
+  ["pick/range-ops-laptop.jpg", "Flight ops", "Range-side laptop work during launch-day coordination.", ""],
+  ["pick/range-crowd.jpg", "Range crowd", "Students and teams gathering for launch windows.", "wide"],
+  ["pick/antenna-crew.jpg", "Telemetry tower", "Crew at the antenna mast supporting range communications.", ""],
+  ["pick/seneca-display-rockets.jpg", "Display rockets", "Astra Labs members with student-built rockets outside Seneca.", "feature"],
+  ["pick/range-lake.jpg", "Range landscape", "Open water and sky near the launch area — where Pioneer aims to fly.", "wide"],
+  ["pick/range-forest.jpg", "Launch corridor", "Forest edge and clear sky above the practice range.", ""],
+  ["pick/range-path.jpg", "Range path", "Access trail through the launch site terrain.", ""],
+  ["pick/workshop-tape.jpg", "Composite layup", "Students laying composite material on airframe tooling.", "tall"],
+  ["pick/cslc-sponsors.jpg", "CSLC sponsors", "Canadian Space Launch Conference sponsor board and partners.", ""],
+  ["pick/cslc-museum.jpg", "Aviation museum", "Historic aircraft on the conference venue floor.", ""],
+  ["pick/cslc-museum-hangar.jpg", "Hangar exhibits", "Aerospace history exhibits from the conference venue.", "wide"],
+  ["pick/helix-talk.jpg", "Campus talk", "Seneca HELIX session — program outreach to the wider student body.", "feature"],
 ] as const;
 
 export const leadership = [
@@ -142,12 +142,16 @@ export const sponsorPartnerValue = [
 ] as const;
 
 export const sponsorGallery = [
-  ["field/cslc-panel-2026.jpg", "Launch sector network", "Conference conversations connecting Astra Labs to Canada's launch ecosystem.", "feature"],
-  ["field/team-rockets-2026.jpg", "Student crew", "Astra Labs members representing the club and Pioneer program at Seneca.", ""],
-  ["gal11.jpg", "Astra Labs crew", "Students representing Pioneer and the Launch Canada campaign.", "feature"],
-  ["gal03.jpg", "Vehicle display", "Rocket hardware on display for students, partners, and supporters.", ""],
-  ["gal07.jpg", "Student build work", "Members learning through hands-on fabrication and assembly.", ""],
-  ["gal25.jpg", "Launch Canada floor", "Competition and outreach moments that connect the team to the wider rocketry community.", "wide"],
-  ["pic11.jpg", "Range operations", "Field setup and launch-day practice around real hardware.", ""],
-  ["ssfclubev.jpg", "Campus activation", "Recruiting and outreach events that introduce new students to the program.", ""],
+  ["pick/team-range-portrait.jpg", "Team on the pad", "Full crew portrait with the vehicle on the Launch Canada range.", "feature"],
+  ["pick/ground-station-alt.jpg", "Electronics table", "Avionics and ground-support gear ready for flight windows.", ""],
+  ["pick/range-under-tent.jpg", "Range tent", "Briefing and prep under the operations tent.", ""],
+  ["pick/outreach-model-alt.jpg", "Student builder", "New members meeting the club through model rockets and demos.", ""],
+  ["pick/cslc-banquet.jpg", "Industry banquet", "Canadian Space Launch Conference dinner with aerospace partners.", "wide"],
+  ["pick/cslc-stage.jpg", "Conference stage", "National launch-sector talks that connect students to industry.", ""],
+  ["pick/seneca-display-alt.jpg", "Campus rockets", "Display hardware and crew outside Seneca for outreach.", "feature"],
+  ["pick/airframe-carry.jpg", "Airframe work", "Hands-on structural work outdoors with faculty and students.", ""],
+  ["pick/flight-data.jpg", "Flight data", "Telemetry logs and range gear during a field session.", ""],
+  ["pick/outreach-group.jpg", "Club fair", "Students discovering Astra Labs at a campus recruitment fair.", ""],
+  ["pick/ground-equipment.jpg", "Range instruments", "Close-up of launch-day measurement and support hardware.", ""],
+  ["pick/range-launch-canada.jpg", "Launch Canada ops", "Tents, teams, and vehicles on the active range.", "wide"],
 ] as const;

@@ -8,6 +8,15 @@ import {
   sponsorTiers,
 } from "../content";
 import { bg, Gallery, PageHero, Rows } from "../page-sections";
+import { pageMetadata } from "../seo";
+
+export const metadata = pageMetadata({
+  title: "Sponsor",
+  description:
+    "Sponsor Astra Labs (Team 06, Seneca Polytechnic). Partners fund fabrication, student workshops, and competition readiness for Pioneer at Launch Canada 2026.",
+  path: "/sponsor",
+  image: "/images/pick/range-sky.jpg",
+});
 
 export default function SponsorPage() {
   return (
@@ -16,7 +25,7 @@ export default function SponsorPage() {
         eyebrow="Sponsorship"
         title="Help Seneca students fly real hardware."
         lede="Astra Labs is Team 06 at Seneca Polytechnic. Partners fund fabrication, student workshops, and competition readiness — with progress reported through build logs and photos."
-        image="/images/field/aerial-oct2025.jpg"
+        image="/images/pick/range-sky.jpg"
         meta={["Team 06", "Seneca Polytechnic", "Launch Canada 2026"]}
       />
 
@@ -119,7 +128,7 @@ export default function SponsorPage() {
           <p>Sponsorship buys flight materials, shop tooling, workshop kits, and the trip that proves the vehicle on the range.</p>
           <p className="sx-page-hero__lede" style={{ marginTop: 16 }}><Link href="/about">About the club</Link> covers mission, leadership, and faculty advisors. The PDF above has Pioneer specs and competition details.</p>
         </div>
-        <div className="sx-split__media" style={bg("/images/field/team-group-01.jpg")} role="img" aria-label="Astra Labs crew at the launch area" />
+        <div className="sx-split__media" style={bg("/images/pick/team-range-wide.jpg")} role="img" aria-label="Astra Labs crew with the vehicle on the launch range" />
       </section>
 
       <section className="sx-page-body">

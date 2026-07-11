@@ -1,5 +1,14 @@
 import { disciplines, faculty, leadership, partners, programs, values } from "../content";
 import { bg, PageHero, Rows } from "../page-sections";
+import { pageMetadata } from "../seo";
+
+export const metadata = pageMetadata({
+  title: "About",
+  description:
+    "How Astra Labs works: a student-run engineering group at Seneca Polytechnic building Pioneer for Launch Canada 2026, with open documentation, leadership, and faculty support.",
+  path: "/about",
+  image: "/images/aboutus.jpg",
+});
 
 export default function AboutPage() {
   return (
@@ -62,7 +71,7 @@ export default function AboutPage() {
       </section>
 
       <section className="sx-split">
-        <div className="sx-split__media" style={bg("/images/field/team-outdoor-01.jpg")} role="img" aria-label="Astra Labs members during a field session" />
+        <div className="sx-split__media" style={bg("/images/pick/team-seneca-rockets.jpg")} role="img" aria-label="Astra Labs members with display rockets at Seneca" />
         <div className="sx-split__copy range-ticks range-ticks--section">
           <p className="section-eyebrow">Institutional support</p>
           <h2>Built with faculty and campus partners.</h2>

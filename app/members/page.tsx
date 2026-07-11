@@ -1,4 +1,12 @@
 import { SectionPage } from "../page-sections";
+import { pageMetadata } from "../seo";
+
+export const metadata = pageMetadata({
+  title: "Members",
+  description:
+    "The crew behind Astra Labs — builders, organizers, and documentation leads across mechanical, avionics, and operations workstreams at Seneca Polytechnic.",
+  path: "/members",
+});
 
 export default function MembersPage() {
   return (

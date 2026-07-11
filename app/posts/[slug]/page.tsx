@@ -1,7 +1,26 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { getPublicPosts } from "../../../lib/public-content";
+import { pageMetadata } from "../../seo";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({
+  params,
+}: Readonly<{ params: Promise<{ slug: string }> }>): Promise<Metadata> {
+  const { slug } = await params;
+  const post = (await getPublicPosts()).find((item) => item.slug === slug);
+  if (!post) {
+    return { title: "Post not found", robots: { index: false, follow: false } };
+  }
+  const description = (post.excerpt || post.content).replace(/\s+/g, " ").trim().slice(0, 155);
+  return pageMetadata({
+    title: post.title,
+    description,
+    path: `/posts/${slug}`,
+    image: post.featured_image_url || undefined,
+  });
+}
 
 export default async function PostDetailPage({ params }: Readonly<{ params: Promise<{ slug: string }> }>) {
   const { slug } = await params;

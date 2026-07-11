@@ -1,6 +1,15 @@
 import Link from "next/link";
 import { collaborations, fieldGallery } from "../content";
 import { bg, Gallery, PageHero, Rows } from "../page-sections";
+import { pageMetadata } from "../seo";
+
+export const metadata = pageMetadata({
+  title: "Pioneer",
+  description:
+    "Pioneer is Astra Labs' student-built high-power rocket for Launch Canada 2026 — mechanical, avionics, and operations subsystems designed and tested in-house.",
+  path: "/pioneer",
+  image: "/images/pick/rocket-canada-pad.jpg",
+});
 
 export default function PioneerPage() {
   return (
@@ -9,7 +18,7 @@ export default function PioneerPage() {
         eyebrow="Vehicle program"
         title="Pioneer is the current build."
         lede="Designed, machined, wired, and tested by students. Every subsystem is integrated in-house — mechanical, electronics, and operations."
-        image="/images/field/rocket-prep-01.jpg"
+        image="/images/pick/rocket-canada-pad.jpg"
         meta={["Student-built", "Bench-tested", "No outsourcing"]}
       />
 
@@ -30,7 +39,7 @@ export default function PioneerPage() {
       </section>
 
       <section className="sx-split">
-        <div className="sx-split__media" style={bg("/images/field/shop-session-01.jpg")} role="img" aria-label="Astra Labs members working on rocket hardware in the shop" />
+        <div className="sx-split__media" style={bg("/images/pick/rocket-airframe-tent.jpg")} role="img" aria-label="Rocket airframe under the range operations tent" />
         <div className="sx-split__copy range-ticks range-ticks--section">
           <p className="section-eyebrow">Integration</p>
           <h2>Subsystems converge at the vehicle.</h2>

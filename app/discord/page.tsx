@@ -1,4 +1,12 @@
 import { SectionPage } from "../page-sections";
+import { pageMetadata } from "../seo";
+
+export const metadata = pageMetadata({
+  title: "Discord",
+  description:
+    "Astra Labs on Discord — day-to-day coordination for work sessions, quick questions, and handoffs. The website stays the durable record.",
+  path: "/discord",
+});
 
 export default function DiscordPage() {
   return (

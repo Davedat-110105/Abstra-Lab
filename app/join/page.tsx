@@ -1,5 +1,14 @@
 import { clubSignupUrl } from "../content";
 import { SectionPage } from "../page-sections";
+import { pageMetadata } from "../seo";
+
+export const metadata = pageMetadata({
+  title: "Join the Crew",
+  description:
+    "Join Astra Labs: show up to a work session, pick a workstream, and learn on real club hardware. Open intake for Seneca students, no experience required.",
+  path: "/join",
+  image: "/images/pick/outreach-model-rocket.jpg",
+});
 
 export default function JoinPage() {
   return (

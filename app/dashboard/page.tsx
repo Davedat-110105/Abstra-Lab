@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -6,6 +7,11 @@ import { requireStaff, requireUser } from "../../lib/auth";
 import { prisma } from "../../lib/prisma";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+  robots: { index: false, follow: false },
+};
 
 async function createPost(formData: FormData) {
   "use server";

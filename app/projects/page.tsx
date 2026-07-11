@@ -1,6 +1,15 @@
 import Link from "next/link";
 import { destinations } from "../content";
 import { bg, PageHero, Rows } from "../page-sections";
+import { pageMetadata } from "../seo";
+
+export const metadata = pageMetadata({
+  title: "Projects",
+  description:
+    "The Pioneer program map — payload planning, vehicle integration, telemetry, recovery, and Launch Canada operations, tracked from build bench to range day.",
+  path: "/projects",
+  image: "/images/mission-earth.jpg",
+});
 
 export default function ProjectsPage() {
   return (
@@ -28,7 +37,7 @@ export default function ProjectsPage() {
           <p>Each destination is a checkpoint with evidence the team can review before moving to the next phase.</p>
           <Link className="sx-btn" href="/pioneer">Inspect Pioneer</Link>
         </div>
-        <div className="sx-split__media" style={bg("/images/hero-launch.jpg")} role="img" aria-label="Rocket on the launch pad" />
+        <div className="sx-split__media" style={bg("/images/pick/rocket-pad-close.jpg")} role="img" aria-label="High-power rocket staged on the launch pad" />
       </section>
       <section className="sx-page-body sx-page-body--tight">
         <div className="wrap">

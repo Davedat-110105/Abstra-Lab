@@ -1,7 +1,15 @@
 import { PageHero } from "../page-sections";
 import { getPublicPosts } from "../../lib/public-content";
+import { pageMetadata } from "../seo";
 
 export const dynamic = "force-dynamic";
+
+export const metadata = pageMetadata({
+  title: "Posts",
+  description:
+    "Build log from the Astra Labs crew — ship notes, bench work, test results, and handoffs for the Pioneer rocket program.",
+  path: "/posts",
+});
 
 function postDate(value: string) {
   return new Intl.DateTimeFormat("en", { month: "short", day: "numeric", year: "numeric" }).format(new Date(value));

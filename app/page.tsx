@@ -1,4 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  description:
+    "Astra Labs is a student rocketry club at Seneca Polytechnic building Pioneer, a high-power rocket for Launch Canada 2026. Follow the build in the open.",
+  alternates: { canonical: "/" },
+  openGraph: { type: "website", url: "/" },
+};
 
 function bg(path: string) {
   return { backgroundImage: `url('${path}')` };
@@ -29,7 +37,7 @@ export default function Home() {
           className="sx-split__media"
           role="img"
           aria-label="Astra Labs crew during a field operations day"
-          style={bg("/images/field/team-group-01.jpg")}
+          style={bg("/images/pick/team-range-crew.jpg")}
         />
         <div className="sx-split__copy range-ticks range-ticks--section reveal visible">
           <p className="section-eyebrow">Seneca Polytechnic</p>
@@ -88,7 +96,7 @@ export default function Home() {
           className="sx-split__media"
           role="img"
           aria-label="Students working on rocket hardware in the shop"
-          style={bg("/images/field/workshop-01.jpg")}
+          style={bg("/images/pick/workshop-mentor.jpg")}
         />
       </section>
 
@@ -97,7 +105,7 @@ export default function Home() {
           className="sx-split__media"
           role="img"
           aria-label="Crew documenting bench work and ship notes"
-          style={bg("/images/field/shop-session-01.jpg")}
+          style={bg("/images/pick/workshop-layup.jpg")}
         />
         <div className="sx-split__copy range-ticks range-ticks--section reveal visible">
           <p className="section-eyebrow">Build log</p>
@@ -113,7 +121,7 @@ export default function Home() {
       </section>
 
       <section className="sx-block">
-        <div className="sx-block__bg" style={bg("/images/field/assembly-01.jpg")} />
+        <div className="sx-block__bg" style={bg("/images/pick/range-road.jpg")} />
         <div className="sx-block__inner reveal visible">
           <h2>Partner with Astra Labs.</h2>
           <p>Partners fund fabrication, workshops, and competition readiness. See where support goes.</p>
@@ -135,7 +143,7 @@ export default function Home() {
             View projects
           </Link>
         </div>
-        <div className="sx-split__media" style={bg("/images/gal01.jpg")} />
+        <div className="sx-split__media" style={bg("/images/pick/club-booth.jpg")} />
       </section>
     </>
   );

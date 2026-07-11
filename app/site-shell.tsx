@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 
 const navItems = [
   ["Pioneer", "/pioneer"],
-  ["Projects", "/projects"],
   ["Events", "/events"],
   ["Posts", "/posts"],
   ["About", "/about"],
@@ -82,7 +81,6 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
           </div>
           <div className="sx-footer__col">
             <h4>Build</h4>
-            <Link href="/projects">Projects</Link>
             <Link href="/pioneer">Pioneer</Link>
             <Link href="/events">Events</Link>
             <Link href="/posts">Posts</Link>

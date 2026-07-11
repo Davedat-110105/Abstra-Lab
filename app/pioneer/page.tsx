@@ -44,9 +44,31 @@ export default function PioneerPage() {
           <p className="section-eyebrow">Integration</p>
           <h2>Subsystems converge at the vehicle.</h2>
           <p>Mechanical, electronics, operations, and documentation feed into one launch-ready configuration. Shared requirements, shared handoff points, shared accountability.</p>
-          <Link className="sx-btn" href="/projects">
-            View program map
+          <Link className="sx-btn" href="#roadmap">
+            See the range path
           </Link>
+        </div>
+      </section>
+
+      <section className="sx-page-body" id="roadmap">
+        <div className="wrap">
+          <div className="sx-page-intro range-ticks range-ticks--section">
+            <p className="section-eyebrow">Range path</p>
+            <h2>Build, test, document, launch, recover.</h2>
+            <p className="sx-page-hero__lede" style={{ marginTop: 12 }}>
+              The program map from bench to range day — each phase is a checkpoint with evidence the team reviews before moving on.
+            </p>
+          </div>
+          <Rows
+            label="Pioneer range path"
+            items={[
+              ["01", "Bench build", "Machine, wire, and document subsystems before they meet at integration."],
+              ["02", "Subsystem test", "Controlled tests with recorded setup, expected result, and actual result."],
+              ["03", "Integration review", "Fit checks, interface verification, and recovery-system validation."],
+              ["04", "Range operations", "Launch Canada logistics, telemetry capture, and flight-day procedures."],
+              ["05", "Recovery record", "Post-flight inspection, data download, and lessons for the next iteration."],
+            ]}
+          />
         </div>
       </section>
 

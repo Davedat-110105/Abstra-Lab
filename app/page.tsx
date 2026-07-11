@@ -139,8 +139,8 @@ export default function Home() {
             See how Pioneer moves through payload planning, vehicle integration, ground station
             work, and competition readiness.
           </p>
-          <Link className="sx-btn" href="/projects">
-            View projects
+          <Link className="sx-btn" href="/pioneer">
+            Inspect Pioneer
           </Link>
         </div>
         <div className="sx-split__media" style={bg("/images/pick/club-booth.jpg")} />

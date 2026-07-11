@@ -61,7 +61,7 @@ export async function setSession(user: { id: number; isStaff: boolean; isSuperus
   (await cookies()).set(cookieName, value, {
     httpOnly: true,
     sameSite: "lax",
-    secure: process.env.AUTH_SECURE_COOKIE === "1",
+    secure: secureCookie(),
     path: "/",
     maxAge: 60 * 60 * 24 * 14,
   });
@@ -90,6 +90,29 @@ function hmac(body: string) {
   return createHmac("sha256", sessionSecret()).update(body).digest("base64url");
 }
 
+const INSECURE_FALLBACK_SECRET = "local-next-session-secret";
+
 function sessionSecret() {
-  return process.env.AUTH_SECRET || "local-next-session-secret";
+  const secret = process.env.AUTH_SECRET;
+  if (secret && secret !== INSECURE_FALLBACK_SECRET) return secret;
+  // The session cookie is only signed with an HMAC of this secret. If it is
+  // missing (or left at the well-known placeholder), anyone can forge a valid
+  // cookie — including a staff/superuser session — so fail closed in production.
+  if (process.env.NODE_ENV === "production") {
+    throw new Error(
+      "AUTH_SECRET is missing or set to the insecure default. Set a long, random AUTH_SECRET before deploying.",
+    );
+  }
+  console.warn(
+    "[auth] AUTH_SECRET is not set — using an insecure development fallback. Never use this in production.",
+  );
+  return INSECURE_FALLBACK_SECRET;
+}
+
+function secureCookie() {
+  // Explicit override wins; otherwise send Secure cookies by default in
+  // production so sessions are never transmitted over plain HTTP.
+  const override = process.env.AUTH_SECURE_COOKIE;
+  if (override) return override === "1";
+  return process.env.NODE_ENV === "production";
 }

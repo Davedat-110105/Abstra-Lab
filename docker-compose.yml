@@ -23,7 +23,11 @@ services:
     image: ${ASTRA_FRONTEND_IMAGE:-astra-lab-frontend:latest}
     restart: unless-stopped
     environment:
-      AUTH_SECRET: ${AUTH_SECRET:-local-next-session-secret}
+      AUTH_SECRET: ${AUTH_SECRET:?Set a long random AUTH_SECRET in .env}
+      # Set to 1 when serving over HTTPS; kept 0 here for plain-HTTP localhost.
+      AUTH_SECURE_COOKIE: ${AUTH_SECURE_COOKIE:-0}
+      # Required for the telemetry ingest endpoint to accept writes (fails closed if unset).
+      TELEMETRY_INGEST_TOKEN: ${TELEMETRY_INGEST_TOKEN:-}
       DATABASE_URL: postgresql://${POSTGRES_USER:-astra}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@db:5432/${POSTGRES_DB:-astra}
       NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3001}
     depends_on:

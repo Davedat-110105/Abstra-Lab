@@ -1,25 +1,30 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { setSession, verifyPassword } from "../../../lib/auth";
-import { hasDatabase, prisma } from "../../../lib/prisma";
+import { authenticate } from "../../../lib/accounts";
+import { setSession } from "../../../lib/auth";
+import { hasDatabase } from "../../../lib/prisma";
+import { clientIp, rateLimit } from "../../../lib/rate-limit";
+
+export const metadata: Metadata = {
+  title: "Login",
+  robots: { index: false, follow: false },
+};
 
 async function loginAction(formData: FormData) {
   "use server";
   if (!hasDatabase()) redirect("/accounts/login?error=db");
 
-  const login = String(formData.get("login") || "").trim();
-  const password = String(formData.get("password") || "");
-  const user = await prisma.user.findFirst({
-    where: {
-      OR: [{ username: login }, { email: login }],
-    },
-    include: { profile: true },
-  });
+  const ip = clientIp((await headers()).get("x-forwarded-for"));
+  if (!rateLimit(`login:${ip}`, 10, 5 * 60_000).ok) redirect("/accounts/login?error=throttled");
 
-  if (!user || !user.isActive || user.profile?.isBanned || !(await verifyPassword(password, user.password))) {
-    redirect("/accounts/login?error=invalid");
-  }
+  const user = await authenticate(
+    String(formData.get("login") || "").trim(),
+    String(formData.get("password") || ""),
+  );
+  if (!user) redirect("/accounts/login?error=invalid");
 
   await setSession(user);
   redirect("/dashboard");
@@ -33,7 +38,13 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
         <p className="section-eyebrow">Members</p>
         <h1>Login</h1>
         <p className="sx-page-hero__lede">Access member materials, build logs, events, telemetry, and admin tools.</p>
-        {error && <p className="form-error">Login failed. Check your account status and password.</p>}
+        {error && (
+          <p className="form-error">
+            {error === "throttled"
+              ? "Too many attempts. Please wait a few minutes and try again."
+              : "Login failed. Check your account status and password."}
+          </p>
+        )}
         <form className="auth-form" action={loginAction}>
           <label>
             Username or email

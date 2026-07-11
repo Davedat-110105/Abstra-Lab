@@ -1,36 +1,35 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { hashPassword } from "../../../lib/auth";
-import { hasDatabase, prisma } from "../../../lib/prisma";
+import { registerUser } from "../../../lib/accounts";
+import { hasDatabase } from "../../../lib/prisma";
+import { clientIp, rateLimit } from "../../../lib/rate-limit";
+
+export const metadata: Metadata = {
+  title: "Request access",
+  robots: { index: false, follow: false },
+};
 
 async function signupAction(formData: FormData) {
   "use server";
   if (!hasDatabase()) redirect("/accounts/signup?error=db");
 
-  const username = String(formData.get("username") || "").trim();
-  const email = String(formData.get("email") || "").trim();
-  const firstName = String(formData.get("firstName") || "").trim();
-  const lastName = String(formData.get("lastName") || "").trim();
-  const password = String(formData.get("password") || "");
-  if (!username || !email || !firstName || !lastName || password.length < 8) {
-    redirect("/accounts/signup?error=invalid");
+  const ip = clientIp((await headers()).get("x-forwarded-for"));
+  if (!rateLimit(`signup:${ip}`, 5, 15 * 60_000).ok) redirect("/accounts/signup?error=throttled");
+
+  const result = await registerUser({
+    username: String(formData.get("username") || ""),
+    email: String(formData.get("email") || ""),
+    firstName: String(formData.get("firstName") || ""),
+    lastName: String(formData.get("lastName") || ""),
+    password: String(formData.get("password") || ""),
+  });
+  if (!result.ok) {
+    redirect(result.error === "invalid" ? "/accounts/signup?error=invalid" : "/accounts/signup?error=taken");
   }
 
-  const user = await prisma.user.create({
-    data: {
-      username,
-      email,
-      firstName,
-      lastName,
-      password: await hashPassword(password),
-      isActive: false,
-      isStaff: false,
-      isSuperuser: false,
-      dateJoined: new Date(),
-    },
-  });
-  await prisma.memberProfile.create({ data: { userId: user.id, isBanned: false } });
   redirect("/accounts/pending");
 }
 
@@ -42,7 +41,13 @@ export default async function SignupPage({ searchParams }: { searchParams: Promi
         <p className="section-eyebrow">Members</p>
         <h1>Request access</h1>
         <p className="sx-page-hero__lede">Create an account. An admin approves member access before login works.</p>
-        {error && <p className="form-error">Sign up failed. Use unique username/email and an 8+ character password.</p>}
+        {error && (
+          <p className="form-error">
+            {error === "throttled"
+              ? "Too many attempts. Please wait a few minutes and try again."
+              : "Sign up failed. Use unique username/email and an 8+ character password."}
+          </p>
+        )}
         <form className="auth-form" action={signupAction}>
           <label>First name<input name="firstName" required /></label>
           <label>Last name<input name="lastName" required /></label>

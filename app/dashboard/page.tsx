@@ -102,79 +102,172 @@ async function approveMember(formData: FormData) {
 export default async function DashboardPage() {
   const user = await requireUser();
   if (!user) redirect("/accounts/login");
+  const isStaff = user.isStaff || user.isSuperuser;
+  const role = user.isSuperuser ? "Admin" : isStaff ? "Staff" : "Member";
 
   const [posts, events, materials, frames, members] = await Promise.all([
-    prisma.blogPost.findMany({ orderBy: { createdAt: "desc" }, take: 10 }),
-    prisma.clubEvent.findMany({ orderBy: [{ startsAt: "desc" }, { createdAt: "desc" }], take: 10 }),
-    prisma.buildMaterial.findMany({ orderBy: [{ sortOrder: "asc" }, { name: "asc" }], take: 20 }),
-    prisma.telemetryFrame.findMany({ orderBy: { receivedAt: "desc" }, take: 8 }),
-    user.isStaff || user.isSuperuser
-      ? prisma.user.findMany({ include: { profile: true }, orderBy: { dateJoined: "desc" }, take: 30 })
+    prisma.blogPost.findMany({ orderBy: { createdAt: "desc" }, take: 6 }),
+    prisma.clubEvent.findMany({ orderBy: [{ startsAt: "desc" }, { createdAt: "desc" }], take: 6 }),
+    prisma.buildMaterial.findMany({ orderBy: [{ sortOrder: "asc" }, { name: "asc" }], take: 12 }),
+    prisma.telemetryFrame.findMany({ orderBy: { receivedAt: "desc" }, take: 1 }),
+    isStaff
+      ? prisma.user.findMany({ include: { profile: true }, orderBy: { dateJoined: "desc" }, take: 40 })
       : Promise.resolve([]),
   ]);
-  const isStaff = user.isStaff || user.isSuperuser;
+  const latest = frames[0];
+  const pending = members.filter((member) => !member.isActive);
 
   return (
     <section className="sx-page-body dashboard-page">
       <div className="wrap">
-        <div className="dashboard-head">
-          <div>
-            <p className="section-eyebrow">Dashboard</p>
-            <h1>Hi, {user.firstName || user.username}</h1>
+        <header className="dashboard-head">
+          <div className="range-ticks range-ticks--section">
+            <p className="section-eyebrow">Dashboard · {role}</p>
+            <h1>Hi, {user.firstName || user.username}.</h1>
           </div>
-          <Link className="sx-btn" href="/accounts/logout">Logout</Link>
-        </div>
+          <Link className="sx-btn sx-btn--compact" href="/accounts/logout">Log out</Link>
+        </header>
 
-        <div className="dashboard-grid">
-          <Panel title="Latest posts">
-            {posts.map((post) => <Row key={post.slug} label={post.published ? "Live" : "Draft"} title={post.title} />)}
-            {isStaff && <PostForm />}
-          </Panel>
+        {isStaff && (
+          <section className="dash-admin">
+            <p className="section-eyebrow">Admin</p>
+            <div className="dash-admin__grid">
+              <div>
+                <h2 className="dash-h">
+                  Member approvals
+                  {pending.length > 0 && <span className="dash-badge">{pending.length}</span>}
+                </h2>
+                {pending.length ? (
+                  <div className="dash-list">
+                    {pending.map((member) => (
+                      <form className="dash-row dash-row--action" action={approveMember} key={member.id}>
+                        <input type="hidden" name="userId" value={member.id} />
+                        <span className="dash-row__label">Pending</span>
+                        <strong className="dash-row__main">
+                          {member.firstName} {member.lastName || member.username}
+                        </strong>
+                        <button className="sx-btn sx-btn--compact" type="submit">Approve →</button>
+                      </form>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="dash-empty">No members waiting for approval.</p>
+                )}
+              </div>
+              <div>
+                <h2 className="dash-h">Quick create</h2>
+                <div className="dash-create">
+                  <details>
+                    <summary>New post</summary>
+                    <PostForm />
+                  </details>
+                  <details>
+                    <summary>New event</summary>
+                    <EventForm />
+                  </details>
+                  <details>
+                    <summary>New material</summary>
+                    <MaterialForm />
+                  </details>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
 
-          <Panel title="Events">
-            {events.map((event) => <Row key={event.slug} label={event.dateLabel} title={event.title} />)}
-            {isStaff && <EventForm />}
-          </Panel>
-
-          <Panel title="Materials">
-            {materials.map((item) => <Row key={item.id.toString()} label={item.materialType} title={item.name} />)}
-            {isStaff && <MaterialForm />}
-          </Panel>
-
-          <Panel title="Telemetry">
-            {frames.map((frame) => (
-              <Row
-                key={frame.id.toString()}
-                label={frame.groundStation || "station"}
-                title={`${frame.altitudeM ?? "—"} m · ${frame.batteryV ?? "—"} V`}
-              />
-            ))}
-          </Panel>
-
-          {isStaff && (
-            <Panel title="Members">
-              {members.map((member) => (
-                <form className="dashboard-row" action={approveMember} key={member.id}>
-                  <input type="hidden" name="userId" value={member.id} />
-                  <span>{member.isActive ? "Active" : "Pending"}</span>
-                  <strong>{member.firstName} {member.lastName || member.username}</strong>
-                  {!member.isActive && <button className="sx-btn" type="submit">Approve</button>}
-                </form>
-              ))}
-            </Panel>
+        <section className="dash-section">
+          <p className="section-eyebrow">Latest telemetry</p>
+          {latest ? (
+            <div className="dash-readout">
+              <Readout value={num(latest.altitudeM, 0)} unit="m" label="Altitude" />
+              <Readout value={num(latest.velocityMps, 0)} unit="m/s" label="Velocity" />
+              <Readout value={num(latest.batteryV, 1)} unit="V" label="Battery" />
+              <Readout value={latest.groundStation || "—"} label="Ground station" />
+            </div>
+          ) : (
+            <p className="dash-empty">No telemetry frames received yet.</p>
           )}
+        </section>
+
+        <section className="dash-section">
+          <p className="section-eyebrow">Member resources</p>
+          {materials.length ? (
+            <div className="dash-list">
+              {materials.map((item) => (
+                <div className="dash-row dash-row--res" key={item.id.toString()}>
+                  <span className="dash-row__label">{item.materialType || "item"}</span>
+                  <span className="dash-row__main">
+                    <strong>{item.name}</strong>
+                    {item.summary ? <em>{item.summary}</em> : null}
+                  </span>
+                  <span className="dash-row__meta">{item.access || "Members"}</span>
+                  {item.purchaseUrl ? (
+                    <a className="dash-row__go" href={item.purchaseUrl} target="_blank" rel="noopener noreferrer">
+                      open →
+                    </a>
+                  ) : (
+                    <span className="dash-row__go dash-row__go--muted">—</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="dash-empty">No member resources published yet.</p>
+          )}
+        </section>
+
+        <div className="dash-cols">
+          <section className="dash-section">
+            <p className="section-eyebrow">Build log</p>
+            {posts.length ? (
+              <div className="dash-list">
+                {posts.map((post) => (
+                  <div className="dash-row dash-row--mini" key={post.slug}>
+                    <span className="dash-row__label">{post.published ? "Live" : "Draft"}</span>
+                    <strong className="dash-row__main">{post.title}</strong>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="dash-empty">No posts yet.</p>
+            )}
+          </section>
+          <section className="dash-section">
+            <p className="section-eyebrow">Events</p>
+            {events.length ? (
+              <div className="dash-list">
+                {events.map((event) => (
+                  <div className="dash-row dash-row--mini" key={event.slug}>
+                    <span className="dash-row__label">{event.dateLabel}</span>
+                    <strong className="dash-row__main">{event.title}</strong>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="dash-empty">No events yet.</p>
+            )}
+          </section>
         </div>
       </div>
     </section>
   );
 }
 
-function Panel({ title, children }: { title: string; children: React.ReactNode }) {
-  return <section className="dashboard-panel"><h2>{title}</h2>{children}</section>;
+function Readout({ value, unit, label }: { value: string; unit?: string; label: string }) {
+  return (
+    <div className="dash-readout__cell">
+      <div className="dash-readout__val">
+        {value}
+        {unit ? <span className="dash-readout__unit">{unit}</span> : null}
+      </div>
+      <div className="dash-readout__label">{label}</div>
+    </div>
+  );
 }
 
-function Row({ label, title }: { label: string; title: string }) {
-  return <div className="dashboard-row"><span>{label}</span><strong>{title}</strong></div>;
+function num(value: number | null, digits: number) {
+  if (value == null) return "—";
+  return value.toLocaleString("en-US", { minimumFractionDigits: digits, maximumFractionDigits: digits });
 }
 
 function PostForm() {

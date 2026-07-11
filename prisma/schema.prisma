@@ -14,7 +14,7 @@ model User {
   username  String    @unique
   firstName String    @map("first_name")
   lastName  String    @map("last_name")
-  email     String
+  email     String    @unique
   isSuperuser Boolean @map("is_superuser")
   isStaff   Boolean   @map("is_staff")
   isActive  Boolean   @map("is_active")

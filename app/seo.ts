@@ -4,9 +4,6 @@ export const siteName = "Astra Labs";
 
 const DEFAULT_OG_IMAGE = "/images/hero-launch.jpg";
 
-// Builds consistent per-page metadata: a templated <title>, a unique
-// description, a canonical URL, and matching OpenGraph/Twitter tags. Keeping
-// this in one place stops the tags from drifting apart page to page.
 export function pageMetadata({
   title,
   description,

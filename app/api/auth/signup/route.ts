@@ -25,5 +25,5 @@ export async function POST(request: NextRequest) {
     const status = result.error === "invalid" ? 400 : 409;
     return NextResponse.json({ ok: false, error: result.error }, { status });
   }
-  return NextResponse.json({ ok: true, userId: result.userId }, { status: 201 });
+  return NextResponse.json({ ok: true, userId: result.userId, active: result.active }, { status: 201 });
 }

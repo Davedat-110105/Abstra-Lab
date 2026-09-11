@@ -6,10 +6,6 @@ import { prisma } from "../../../../lib/prisma";
 
 const MAX_BODY_BYTES = 64 * 1024;
 
-// Placeholder ingest endpoint. The payload shape is still being prototyped, so
-// this intentionally does NOT validate a schema — it best-effort maps a few
-// known fields and stores the entire body in `raw`. Only the auth wrapper is
-// locked down.
 export async function POST(request: NextRequest) {
   const expected = process.env.TELEMETRY_INGEST_TOKEN;
   if (expected) {
@@ -21,9 +17,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
     }
   } else if (process.env.NODE_ENV === "production") {
-    // Fail closed in production only: an unauthenticated write endpoint would
-    // let anyone flood the database. In development, allow token-less writes so
-    // the payload can be prototyped freely.
     return NextResponse.json({ ok: false, error: "ingest_not_configured" }, { status: 503 });
   }
 
@@ -34,27 +27,43 @@ export async function POST(request: NextRequest) {
 
   let body: Record<string, unknown>;
   try {
-    body = (await request.json()) as Record<string, unknown>;
+    const text = await request.text();
+    if (Buffer.byteLength(text) > MAX_BODY_BYTES) {
+      return NextResponse.json({ ok: false, error: "payload_too_large" }, { status: 413 });
+    }
+    const parsed: unknown = JSON.parse(text);
+    if (!isRecord(parsed)) {
+      return NextResponse.json({ ok: false, error: "invalid_payload" }, { status: 400 });
+    }
+    body = parsed;
   } catch {
     return NextResponse.json({ ok: false, error: "invalid_json" }, { status: 400 });
+  }
+
+  const telemetry = isRecord(body.payload) ? body.payload : body;
+  const groundStation = stringValue(
+    pick(body.station_id, body.ground_station, body.groundStation, telemetry.ground_station, telemetry.groundStation),
+  ).trim();
+  if (!groundStation) {
+    return NextResponse.json({ ok: false, error: "ground_station_required" }, { status: 422 });
   }
 
   const frame = await prisma.telemetryFrame.create({
     data: {
       receivedAt: new Date(),
-      groundStation: stringValue(pick(body.ground_station, body.groundStation)),
-      packetKind: stringValue(pick(body.packet_kind, body.packetKind)) || "telemetry",
-      sequenceNumber: intValue(pick(body.sequence_number, body.sequenceNumber)),
-      rocketTimeMs: bigintValue(pick(body.rocket_time_ms, body.rocketTimeMs)),
-      altitudeM: numberValue(pick(body.altitude_m, body.altitudeM)),
-      velocityMps: numberValue(pick(body.velocity_mps, body.velocityMps)),
-      accelerationMps2: numberValue(pick(body.acceleration_mps2, body.accelerationMps2)),
-      latitude: numberValue(body.latitude),
-      longitude: numberValue(body.longitude),
-      batteryV: numberValue(pick(body.battery_v, body.batteryV)),
-      temperatureC: numberValue(pick(body.temperature_c, body.temperatureC)),
-      pressurePa: numberValue(pick(body.pressure_pa, body.pressurePa)),
-      rssiDbm: numberValue(pick(body.rssi_dbm, body.rssiDbm)),
+      groundStation,
+      packetKind: stringValue(pick(body.type, body.packet_kind, body.packetKind, telemetry.packet_kind, telemetry.packetKind)) || "telemetry",
+      sequenceNumber: intValue(pick(telemetry.seq, telemetry.sequence_number, telemetry.sequenceNumber)),
+      rocketTimeMs: bigintValue(pick(telemetry.rocket_time_ms, telemetry.rocketTimeMs)),
+      altitudeM: numberValue(pick(telemetry.alt, telemetry.altitude_m, telemetry.altitudeM)),
+      velocityMps: numberValue(pick(telemetry.velocity_mps, telemetry.velocityMps)),
+      accelerationMps2: numberValue(pick(telemetry.acceleration_mps2, telemetry.accelerationMps2)),
+      latitude: numberValue(telemetry.latitude),
+      longitude: numberValue(telemetry.longitude),
+      batteryV: numberValue(pick(telemetry.battery_v, telemetry.batteryV)),
+      temperatureC: numberValue(pick(telemetry.temperature_c, telemetry.temperatureC)),
+      pressurePa: numberValue(pick(telemetry.pressure_pa, telemetry.pressurePa)),
+      rssiDbm: numberValue(pick(telemetry.rssi, telemetry.rssi_dbm, telemetry.rssiDbm)),
       raw: body as Prisma.InputJsonValue,
       createdAt: new Date(),
     },
@@ -65,15 +74,15 @@ export async function POST(request: NextRequest) {
 function tokensMatch(provided: string, expected: string) {
   const a = Buffer.from(provided);
   const b = Buffer.from(expected);
-  // timingSafeEqual requires equal lengths; comparing lengths first leaks only
-  // the length, not the contents.
   return a.length === b.length && timingSafeEqual(a, b);
 }
 
-// Returns the first value that is actually present, so a legitimate 0 / false
-// is preserved instead of being discarded by `||`.
 function pick(...values: unknown[]) {
   return values.find((value) => value !== undefined && value !== null);
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 function stringValue(value: unknown) {

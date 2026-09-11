@@ -34,3 +34,7 @@ node_modules/
 .next/
 *.tsbuildinfo
 public/uploads/
+
+# Claude Code local settings and skill cache
+.claude/
+skills-lock.json

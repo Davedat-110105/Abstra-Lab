@@ -4,8 +4,6 @@ import { SiteShell } from "./site-shell";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3001"),
-  // `default` is used by any page that doesn't set its own title (and by the
-  // homepage); `template` appends the brand to every page-level title.
   title: {
     default: "Astra Labs — Student Rocketry at Seneca Polytechnic",
     template: "%s · Astra Labs",

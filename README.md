@@ -2,10 +2,10 @@
 
 Public site and member dashboard for Astra Labs, the student rocketry club at
 Seneca Polytechnic (Team 06, Launch Canada 2026). Live at
-<https://astralab.space>.
+<https://alsp.ca>.
 
 - **Stack:** Next.js 16 (App Router) · React 19 · Prisma 6 · PostgreSQL (Neon) · S3-compatible uploads
-- **Hosting:** Vercel project `astra-lab`, production domain `astralab.space`
+- **Hosting:** Vercel project `astra-lab`, production domain `alsp.ca`
 - **Code:** <https://github.com/Davedat-110105/Abstra-Lab>
 
 ## Quick start (new developer)
@@ -170,7 +170,7 @@ vercel --prod
 ```
 
 That uploads the current working tree (committed or not) and promotes it to
-`astralab.space`. The `astra-lab-daveta.vercel.app` alias sits behind Vercel
+`alsp.ca`. The `astra-lab-daveta.vercel.app` alias sits behind Vercel
 login; that's expected.
 
 Production environment variables live in Vercel → Project → Settings →
@@ -180,7 +180,7 @@ Environment Variables. Required there:
 |---|---|
 | `DATABASE_URL` | Neon pooled connection string |
 | `AUTH_SECRET` | Long random string; the app refuses to start sessions without it |
-| `NEXT_PUBLIC_SITE_URL` | `https://astralab.space` (canonical links, OG images, sitemap) |
+| `NEXT_PUBLIC_SITE_URL` | `https://alsp.ca` (canonical links, OG images, sitemap) |
 | `TELEMETRY_INGEST_TOKEN` | Bearer token for the telemetry API |
 | `S3_BUCKET`, `AWS_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` | For private uploads |
 | `ADMIN_EMAILS` | Optional override of the master-admin list |
@@ -195,7 +195,7 @@ live domain.
 npm run typecheck                                   # tsc
 npm run build                                       # full production build
 npm run e2e                                         # smoke test against http://localhost:3005
-BASE_URL=https://astralab.space npm run e2e         # same, against production
+BASE_URL=https://alsp.ca npm run e2e                # same, against production
 ```
 
 `scripts/e2e-smoke.mjs` has no dependencies. It fetches every public route,
@@ -286,7 +286,7 @@ or promote them from `/dashboard/staff`. Then rotate `AUTH_SECRET` and
 
 ### Decommission checklist (after the transfer is verified)
 
-Run `BASE_URL=https://astralab.space npm run e2e` and have Saiprasad log in
+Run `BASE_URL=https://alsp.ca npm run e2e` and have Saiprasad log in
 and publish a test post before touching anything below.
 
 - [ ] Delete Vercel project `astra-lab` from team `daveta`
@@ -311,7 +311,7 @@ frame and stores it in Postgres. The route refuses writes when
 `TELEMETRY_INGEST_TOKEN` is absent.
 
 ```sh
-curl -X POST 'https://astralab.space/api/telemetry' \
+curl -X POST 'https://alsp.ca/api/telemetry' \
   -H 'Authorization: Bearer <TELEMETRY_INGEST_TOKEN>' \
   -H 'Content-Type: application/json' \
   --data '{

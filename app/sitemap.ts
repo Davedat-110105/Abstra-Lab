@@ -7,7 +7,9 @@ const routes = [
   ["/posts", 0.8],
   ["/about", 0.7],
   ["/join", 0.7],
-  ["/sponsor", 0.8],
+  ["/sponsorship", 0.8],
+  ["/launch-canada", 0.8],
+  ["/contact", 0.6],
   ["/members", 0.5],
   ["/discord", 0.4],
 ] as const;

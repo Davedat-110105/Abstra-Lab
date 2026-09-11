@@ -30,6 +30,7 @@ async function signupAction(formData: FormData) {
     redirect(result.error === "invalid" ? "/accounts/signup?error=invalid" : "/accounts/signup?error=taken");
   }
 
+  if (result.active) redirect("/accounts/login?registered=1");
   redirect("/accounts/pending");
 }
 

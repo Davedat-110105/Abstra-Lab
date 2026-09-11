@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { collaborations, fieldGallery } from "../content";
+import { collaborations, fieldGallery, pioneerProjects, technicalGallery } from "../content";
 import { bg, Gallery, PageHero, Rows } from "../page-sections";
 import { pageMetadata } from "../seo";
 
@@ -8,7 +8,7 @@ export const metadata = pageMetadata({
   description:
     "Pioneer is Astra Labs' student-built high-power rocket for Launch Canada 2026 — mechanical, avionics, and operations subsystems designed and tested in-house.",
   path: "/pioneer",
-  image: "/images/pick/rocket-canada-pad.jpg",
+  image: "/images/pick/tech-airframe-sand.jpg",
 });
 
 export default function PioneerPage() {
@@ -18,7 +18,7 @@ export default function PioneerPage() {
         eyebrow="Vehicle program"
         title="Pioneer is the current build."
         lede="Designed, machined, wired, and tested by students. Every subsystem is integrated in-house — mechanical, electronics, and operations."
-        image="/images/pick/rocket-canada-pad.jpg"
+        image="/images/pick/tech-airframe-sand.jpg"
         meta={["Student-built", "Bench-tested", "No outsourcing"]}
       />
 
@@ -38,14 +38,27 @@ export default function PioneerPage() {
         </div>
       </section>
 
+      <section className="sx-page-body" id="projects">
+        <div className="wrap">
+          <div className="sx-page-intro range-ticks range-ticks--section">
+            <p className="section-eyebrow">Projects</p>
+            <h2>The work Pioneer has to pass through.</h2>
+            <p className="sx-page-hero__lede" style={{ marginTop: 12 }}>
+              Payload planning, vehicle integration, the Launch Canada judging phases, and competition readiness — tracked from build bench to range day.
+            </p>
+          </div>
+          <Rows items={pioneerProjects} label="Pioneer projects" />
+        </div>
+      </section>
+
       <section className="sx-split">
-        <div className="sx-split__media" style={bg("/images/pick/rocket-airframe-tent.jpg")} role="img" aria-label="Rocket airframe under the range operations tent" />
+        <div className="sx-split__media" style={bg("/images/pick/lc-judging-pioneer.jpg")} role="img" aria-label="Launch Canada judge assessing Pioneer at the tent" />
         <div className="sx-split__copy range-ticks range-ticks--section">
-          <p className="section-eyebrow">Integration</p>
-          <h2>Subsystems converge at the vehicle.</h2>
-          <p>Mechanical, electronics, operations, and documentation feed into one launch-ready configuration. Shared requirements, shared handoff points, shared accountability.</p>
-          <Link className="sx-btn" href="#roadmap">
-            See the range path
+          <p className="section-eyebrow">Launch Canada judging</p>
+          <h2>Quality is assessed by judges, phase by phase.</h2>
+          <p>At Launch Canada, judges score the design reports, interview the team at the vehicle on build quality, watch operations at the setup area and pad, and grade the flight against the locked-in target. Pioneer is built to pass every phase.</p>
+          <Link className="sx-btn" href="/launch-canada">
+            See the judging phases
           </Link>
         </div>
       </section>
@@ -70,6 +83,17 @@ export default function PioneerPage() {
             ]}
           />
         </div>
+      </section>
+
+      <section className="sx-gallery-band">
+        <div className="wrap">
+          <div className="sx-page-intro range-ticks range-ticks--section">
+            <p className="section-eyebrow">Technical record</p>
+            <h2>Airframe, avionics, and payload up close.</h2>
+            <p className="sx-page-hero__lede" style={{ marginTop: 12 }}>Close-ups from the build and from Launch Canada 2026 — the hardware behind the subsystems above.</p>
+          </div>
+        </div>
+        <Gallery items={technicalGallery} />
       </section>
 
       <section className="sx-page-body sx-page-body--tight">

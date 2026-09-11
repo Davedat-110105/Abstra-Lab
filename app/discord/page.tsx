@@ -1,3 +1,4 @@
+import { discordInviteUrl } from "../content";
 import { SectionPage } from "../page-sections";
 import { pageMetadata } from "../seo";
 
@@ -25,6 +26,7 @@ export default function DiscordPage() {
           ],
         },
       ]}
+      cta={discordInviteUrl ? { label: "Open Discord", href: discordInviteUrl } : { label: "Contact us for an invite", href: "/contact" }}
     />
   );
 }

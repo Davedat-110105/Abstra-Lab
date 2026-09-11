@@ -30,14 +30,15 @@ async function loginAction(formData: FormData) {
   redirect("/dashboard");
 }
 
-export default async function LoginPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
-  const { error } = await searchParams;
+export default async function LoginPage({ searchParams }: { searchParams: Promise<{ error?: string; registered?: string }> }) {
+  const { error, registered } = await searchParams;
   return (
     <section className="sx-page-hero sx-page-hero--plain">
       <div className="wrap sx-page-hero__content range-ticks range-ticks--section">
         <p className="section-eyebrow">Members</p>
         <h1>Login</h1>
         <p className="sx-page-hero__lede">Access member materials, build logs, events, telemetry, and admin tools.</p>
+        {registered === "1" && <p className="auth-note">Account created. Log in to continue.</p>}
         {error && (
           <p className="form-error">
             {error === "throttled"

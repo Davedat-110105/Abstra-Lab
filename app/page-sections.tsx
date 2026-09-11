@@ -104,9 +104,15 @@ export function SectionPage({
         <section className="sx-cta-band">
           <div className="wrap">
             <p className="section-eyebrow">Next step</p>
-            <Link className="sx-btn sx-btn--fill" href={cta.href} style={{ marginTop: 24 }}>
-              {cta.label}
-            </Link>
+            {/^https?:\/\//.test(cta.href) ? (
+              <a className="sx-btn sx-btn--fill" href={cta.href} target="_blank" rel="noopener noreferrer" style={{ marginTop: 24 }}>
+                {cta.label}
+              </a>
+            ) : (
+              <Link className="sx-btn sx-btn--fill" href={cta.href} style={{ marginTop: 24 }}>
+                {cta.label}
+              </Link>
+            )}
           </div>
         </section>
       )}

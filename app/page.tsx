@@ -36,8 +36,8 @@ export default function Home() {
         <div
           className="sx-split__media"
           role="img"
-          aria-label="Astra Labs crew during a field operations day"
-          style={bg("/images/pick/team-range-crew.jpg")}
+          aria-label="Astra Labs crew and mentors with Pioneer at Launch Canada 2026"
+          style={bg("/images/pick/lc-team-portrait.jpg")}
         />
         <div className="sx-split__copy range-ticks range-ticks--section reveal visible">
           <p className="section-eyebrow">Seneca Polytechnic</p>
@@ -125,7 +125,7 @@ export default function Home() {
         <div className="sx-block__inner reveal visible">
           <h2>Partner with Astra Labs.</h2>
           <p>Partners fund fabrication, workshops, and competition readiness. See where support goes.</p>
-          <Link className="sx-btn sx-btn--fill" href="/sponsor">
+          <Link className="sx-btn sx-btn--fill" href="/sponsorship">
             Sponsor the mission
           </Link>
         </div>
@@ -136,11 +136,11 @@ export default function Home() {
           <p className="section-eyebrow">Program map</p>
           <h2>From payload workshops to Launch Canada.</h2>
           <p>
-            See how Pioneer moves through payload planning, vehicle integration, ground station
-            work, and competition readiness.
+            See how Pioneer moves through payload planning, vehicle integration, the Launch Canada
+            judging phases, and competition readiness.
           </p>
-          <Link className="sx-btn" href="/pioneer">
-            Inspect Pioneer
+          <Link className="sx-btn" href="/pioneer#projects">
+            See the projects
           </Link>
         </div>
         <div className="sx-split__media" style={bg("/images/pick/club-booth.jpg")} />

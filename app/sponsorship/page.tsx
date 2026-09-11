@@ -11,10 +11,10 @@ import { bg, Gallery, PageHero, Rows } from "../page-sections";
 import { pageMetadata } from "../seo";
 
 export const metadata = pageMetadata({
-  title: "Sponsor",
+  title: "Sponsorship",
   description:
     "Sponsor Astra Labs (Team 06, Seneca Polytechnic). Partners fund fabrication, student workshops, and competition readiness for Pioneer at Launch Canada 2026.",
-  path: "/sponsor",
+  path: "/sponsorship",
   image: "/images/pick/range-sky.jpg",
 });
 
@@ -56,7 +56,6 @@ export default function SponsorPage() {
           </div>
           <div className="supporter-strip" aria-label="Astra Labs supporters">
             <img src="/images/partners/robotshop-logo.jpg" alt="RobotShop" />
-            <img src="/images/partners/seneca-helix-logo.png" alt="Seneca HELIX" />
             <img src="/images/partners/ssf-logo.png" alt="SSF" />
             <img src="/images/partners/seneca-alumni-logo.png" alt="Seneca Alumni" />
             <img src="/images/partners/star-logo.png" alt="Space Technology and Aeronautical Rocketry" />
@@ -128,7 +127,7 @@ export default function SponsorPage() {
           <p>Sponsorship buys flight materials, shop tooling, workshop kits, and the trip that proves the vehicle on the range.</p>
           <p className="sx-page-hero__lede" style={{ marginTop: 16 }}><Link href="/about">About the club</Link> covers mission, leadership, and faculty advisors. The PDF above has Pioneer specs and competition details.</p>
         </div>
-        <div className="sx-split__media" style={bg("/images/pick/team-range-wide.jpg")} role="img" aria-label="Astra Labs crew with the vehicle on the launch range" />
+        <div className="sx-split__media" style={bg("/images/pick/lc-range-trio.jpg")} role="img" aria-label="Astra Labs members with Pioneer hardware on the Launch Canada range" />
       </section>
 
       <section className="sx-page-body">

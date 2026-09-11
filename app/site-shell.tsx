@@ -3,14 +3,38 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import { discordHref } from "./content";
+
 const navItems = [
   ["Pioneer", "/pioneer"],
+  ["Launch Canada", "/launch-canada"],
   ["Events", "/events"],
   ["Posts", "/posts"],
   ["About", "/about"],
+  ["Sponsorship", "/sponsorship"],
   ["Join", "/join"],
+  ["Contact us", "/contact"],
   ["Login", "/accounts/login"],
 ] as const;
+
+function ExternalOrLink({
+  href,
+  children,
+  onClick,
+}: Readonly<{ href: string; children: React.ReactNode; onClick?: () => void }>) {
+  if (/^https?:\/\//.test(href)) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" onClick={onClick}>
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link href={href} onClick={onClick}>
+      {children}
+    </Link>
+  );
+}
 
 export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>) {
   const [navOpen, setNavOpen] = useState(false);
@@ -64,6 +88,11 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
                 </Link>
               </li>
             ))}
+            <li>
+              <ExternalOrLink href={discordHref} onClick={() => setNavOpen(false)}>
+                Discord
+              </ExternalOrLink>
+            </li>
           </ul>
           <p className="nav-drawer__meta">Seneca Polytechnic · Launch Canada 2026</p>
         </div>
@@ -82,6 +111,7 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
           <div className="sx-footer__col">
             <h4>Build</h4>
             <Link href="/pioneer">Pioneer</Link>
+            <Link href="/launch-canada">Launch Canada</Link>
             <Link href="/events">Events</Link>
             <Link href="/posts">Posts</Link>
           </div>
@@ -90,13 +120,14 @@ export function SiteShell({ children }: Readonly<{ children: React.ReactNode }>)
             <Link href="/about">About</Link>
             <Link href="/members">Members</Link>
             <Link href="/join">Join</Link>
-            <Link href="/sponsor">Sponsor</Link>
+            <Link href="/sponsorship">Sponsorship</Link>
+            <Link href="/contact">Contact us</Link>
           </div>
           <div className="sx-footer__col">
             <h4>Members</h4>
             <Link href="/accounts/signup">Sign up</Link>
             <Link href="/accounts/login">Login</Link>
-            <Link href="/discord">Discord</Link>
+            <ExternalOrLink href={discordHref}>Discord</ExternalOrLink>
           </div>
         </div>
         <div className="sx-footer__base">
